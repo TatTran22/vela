@@ -1,0 +1,93 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(swift build:*)",
+      "Bash(swift test:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(swiftlint:*)",
+      "Bash(swiftformat:*)",
+      "Bash(git add:*)",
+      "Bash(git status:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git merge:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(./**/Credentials.swift)",
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  },
+  "env": {
+    "DEVELOPER_DIR": "/Applications/Xcode.app/Contents/Developer",
+    "PROJECT_ROOT": "${CLAUDE_PROJECT_DIR}"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "branch=$(git branch --show-current 2>/dev/null); [ \"$branch\" != \"main\" ] && [ \"$branch\" != \"master\" ] || { echo '{\"block\": true, \"message\": \"Cannot edit on main/master branch. Create a feature branch first.\"}' >&2; exit 2; }",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash(git commit:*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v swiftlint >/dev/null 2>&1; then STAGED=$(git diff --cached --name-only --diff-filter=ACM -- '*.swift' 2>/dev/null); if [ -n \"$STAGED\" ]; then echo \"$STAGED\" | xargs swiftlint lint --strict --quiet 2>&1 || { echo '{\"block\": true, \"message\": \"SwiftLint found violations in staged files. Fix them before committing.\"}' >&2; exit 2; }; fi; fi",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write(*.swift)|Edit(*.swift)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v swiftformat >/dev/null 2>&1 && swiftformat \"$CLAUDE_FILE_PATH\" --config .swiftformat 2>&1 || true",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Code task completed\" with title \"FinanceApp\"'",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

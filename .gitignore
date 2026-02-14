@@ -1,0 +1,18 @@
+# Claude Code personal files
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/logs/
+
+# Secrets
+.env
+.env.*
+secrets/
+
+# Xcode
+*.xcuserdata
+*.xcworkspace/xcuserdata/
+DerivedData/
+
+# Swift Package Manager
+.build/
+Packages/*/build/

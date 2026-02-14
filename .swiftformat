@@ -1,0 +1,44 @@
+# SwiftFormat configuration for FinanceApp
+# Version: 0.54+
+
+--swiftversion 6.1
+
+# Indentation
+--indent 4
+--tabwidth 4
+--smarttabs enabled
+--indentcase false
+--ifdef indent
+
+# Line length
+--maxwidth 120
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--wrapreturntype preserve
+--wrapconditions preserve
+
+# Spacing
+--operatorfunc spaced
+--nospaceoperators ..., ..<
+--ranges spaced
+
+# Braces
+--allman false
+--elseposition same-line
+--guardelse next-line
+
+# Organization
+--self remove
+--importgrouping alpha
+--sortedimports true
+
+# Other
+--semicolons never
+--commas always
+--stripunusedargs closure-only
+--emptybraces no-space
+--voidtype void
+
+# Exclusions
+--exclude .build,DerivedData,Packages/*/build
