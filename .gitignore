@@ -12,7 +12,12 @@ secrets/
 *.xcuserdata
 *.xcworkspace/xcuserdata/
 DerivedData/
+*.xcodeproj/
+*.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
 
 # Swift Package Manager
 .build/
 Packages/*/build/
+Packages/*/.build/
+.swiftpm/
