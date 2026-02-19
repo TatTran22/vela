@@ -18,7 +18,7 @@ struct ContentView: View {
 
             Tab("Transactions", systemImage: "list.bullet", value: .transactions) {
                 NavigationStack {
-                    TransactionsPlaceholderView()
+                    TransactionListView(viewModel: makeTransactionListViewModel())
                 }
             }
 
@@ -44,7 +44,28 @@ struct ContentView: View {
 
     // MARK: - Factory Methods
 
-    /// Creates the view model for the account list with dependencies
+    /// Creates the view model for the transaction list with all dependencies.
+    private func makeTransactionListViewModel() -> TransactionListViewModel {
+        let container = modelContext.container
+        let transactionRepo = TransactionRepository(modelContainer: container)
+        let accountRepo = AccountRepository(modelContainer: container)
+        let categoryRepo = CategoryRepository(modelContainer: container)
+        let getTransactions = GetTransactionsUseCase(repository: transactionRepo)
+        let deleteTransaction = DeleteTransactionUseCase(
+            transactionRepository: transactionRepo,
+            accountRepository: accountRepo
+        )
+        let searchUseCase = TransactionSearchUseCase(repository: transactionRepo)
+        return TransactionListViewModel(
+            getTransactionsUseCase: getTransactions,
+            deleteTransactionUseCase: deleteTransaction,
+            searchUseCase: searchUseCase,
+            accountRepository: accountRepo,
+            categoryRepository: categoryRepo
+        )
+    }
+
+    /// Creates the view model for the account list with dependencies.
     private func makeAccountListViewModel() -> AccountListViewModel {
         let container = modelContext.container
         let repository = AccountRepository(modelContainer: container)

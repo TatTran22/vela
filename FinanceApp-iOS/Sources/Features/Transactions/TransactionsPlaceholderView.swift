@@ -1,8 +1,3 @@
-import SwiftUI
-
-struct TransactionsPlaceholderView: View {
-    var body: some View {
-        Text("Transactions")
-            .navigationTitle("Transactions")
-    }
-}
+// This file is intentionally empty.
+// TransactionsPlaceholderView was replaced by TransactionListView (T16).
+// Delete this file from the Xcode project or file system.

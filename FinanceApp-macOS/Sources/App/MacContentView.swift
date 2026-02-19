@@ -1,3 +1,4 @@
+import FinanceData
 import SwiftData
 import SwiftUI
 
@@ -18,7 +19,7 @@ struct MacContentView: View {
             case .dashboard:
                 MacDashboardPlaceholderView()
             case .transactions:
-                MacTransactionsPlaceholderView()
+                MacTransactionsView(modelContainer: modelContext.container)
             case .accounts:
                 MacAccountsView(modelContainer: modelContext.container)
             case .reports:

@@ -1,0 +1,817 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00DC2EC44A57D7494340925E /* MacAccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DA59632F078DAF8D53A27 /* MacAccountDetailView.swift */; };
+		0224B92BDB03C7772CCAFA1A /* AccountEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4515C6A5A5C7C7933ED4026A /* AccountEditViewModel.swift */; };
+		0903D19DCE3FE05AEF5C3BF3 /* MacCategoriesPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE86A767770B12407E0060D5 /* MacCategoriesPlaceholderView.swift */; };
+		223977BABCFB6C5F9D7310A1 /* TransactionsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B14815600EC742141DD3B38 /* TransactionsPlaceholderView.swift */; };
+		25FBC43DA4004FBA5C4D161B /* CategoriesPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B095CAA86FC559253DF8A9D /* CategoriesPlaceholderView.swift */; };
+		30E2EDA421D9E0C665D76FEB /* MacReportsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15626604C2B11326F116D02C /* MacReportsPlaceholderView.swift */; };
+		317A50DEACEF1E08D4379FF0 /* MacAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B31DEA2BA8DC5DF0741FC1 /* MacAccountsView.swift */; };
+		329A92C3B00305D3FFEB3953 /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F49EFA63B3B089BDEDE73D1 /* AccountDetailView.swift */; };
+		481AF0F8385697B65F55FE64 /* FinanceCore in Frameworks */ = {isa = PBXBuildFile; productRef = EE36DAE878C57D2CD10062D9 /* FinanceCore */; };
+		4B9B501BAC0553761A96F348 /* FinanceData in Frameworks */ = {isa = PBXBuildFile; productRef = 409BAF0E99CD5CC1729CBB72 /* FinanceData */; };
+		4BA9A910F16371704605108E /* AccountDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461CDA5F941EEB36A8F13F07 /* AccountDetailViewModel.swift */; };
+		4E002786F102E9A8D5F3A916 /* AccountEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930A3132D6965A93F84FD709 /* AccountEditView.swift */; };
+		580D7A954B1DA2B035986206 /* BalanceAdjustSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D739D6D2B556D84EC6CAC331 /* BalanceAdjustSheet.swift */; };
+		5DF3597EF6E2701281B5382F /* FinanceUI in Frameworks */ = {isa = PBXBuildFile; productRef = FC0E0F98A8A1FA7D42FCAD63 /* FinanceUI */; };
+		68F09AF8E80E7F8C077C1F0C /* MacSettingsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6A43D11C8432D9120F8EB3 /* MacSettingsPlaceholderView.swift */; };
+		6DB9B4152D32EC26C0FF148B /* SettingsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BDD6BB8094FD1FFE411C6 /* SettingsPlaceholderView.swift */; };
+		74BEBB2C4288A3D32B1B5E2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271D1C9823123D81D9201BC4 /* ContentView.swift */; };
+		77AE23CB0ACC5439F5A410A2 /* MacAccountsSidebarSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3DCF18CFE76F5C8E7D4200 /* MacAccountsSidebarSection.swift */; };
+		7F389287275AFC5017B1AC40 /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A7EE079A0F03C6E94FD438 /* MacContentView.swift */; };
+		900F6413D687CD1518367316 /* OnboardingPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA961BA2BEE676FF936465F /* OnboardingPlaceholderView.swift */; };
+		920A84CF05BA32AA6B48D161 /* MacAccountContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56072BB8AD3579FF16470AA /* MacAccountContextMenu.swift */; };
+		A0CF74B4632CBA4008F51FA4 /* MacDashboardPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA5113160F98DC2F6810E69 /* MacDashboardPlaceholderView.swift */; };
+		A41E18356F25EFC96A75964D /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A224130FE08BBDAA01B2575C /* AccountListView.swift */; };
+		AF8FA886364BD18E2FFC4F17 /* AccountListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27F719CAF54EE2999FBC7B4 /* AccountListViewModel.swift */; };
+		BA0287754B99799E84CD5EE9 /* MacTransactionsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D6411E0759E145EA1A9EC /* MacTransactionsPlaceholderView.swift */; };
+		BCD8D6C0BAD62B2F8B91ADFB /* FinanceCore in Frameworks */ = {isa = PBXBuildFile; productRef = 90E2713127D76CD3D600561B /* FinanceCore */; };
+		C21B7BFCED27AC9DBE6A0201 /* FinanceData in Frameworks */ = {isa = PBXBuildFile; productRef = 30BAB823B75B769D9F283118 /* FinanceData */; };
+		D2E8A3A5494808833114A373 /* ReportsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB4C0D6D30EDB9FB343DC3E /* ReportsPlaceholderView.swift */; };
+		D399AC612D97E90F7B911CDB /* MacAccountEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7455C5AACD8227716B18F49 /* MacAccountEditView.swift */; };
+		D9E4ACC11C99A69070BA29A3 /* FinanceApp_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611951F18347BB810B0BC645 /* FinanceApp_macOS.swift */; };
+		DF4F94C03BD891CF40033765 /* DashboardPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69E026D79D0038936E445CE /* DashboardPlaceholderView.swift */; };
+		EB339B477CF47CC4CD6DC4D1 /* FinanceUI in Frameworks */ = {isa = PBXBuildFile; productRef = B5DBE8E10BB6A57702469171 /* FinanceUI */; };
+		F56F17E52FC2702B32C34F93 /* FinanceApp_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E7981B3BE0F1DAA6DE647 /* FinanceApp_iOS.swift */; };
+		71710D7E004E4817AF5FFE53 /* TransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A7B459DEE1E468120829D5 /* TransactionListView.swift */; };
+		BB2D802E66133C3BE009CD83 /* TransactionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004E31089859653BCAD74232 /* TransactionListViewModel.swift */; };
+		5FD4ED954B3C7DB477CAC79B /* QuickInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D818C26B615E224F1A78484 /* QuickInputView.swift */; };
+		7ED5D201CEF42F8EDD6854A1 /* QuickInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652EEEACA38939900752A4CC /* QuickInputViewModel.swift */; };
+		1E513FF7F9CB475906A847EF /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B911D2DB94342044F14933A /* TransactionDetailView.swift */; };
+		8F50C1D33B10A532E9852AD4 /* TransactionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60499D64543733ECB2E2D80 /* TransactionDetailViewModel.swift */; };
+		B5112E685E27E1035E4E7E24 /* TransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4BF39D1A1A00DE7535C711 /* TransferView.swift */; };
+		08278B9D53BDE65FAA5B42AA /* TransferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B7B49FAB783FC9AFD479DC /* TransferViewModel.swift */; };
+		2BF2D1E4F0569B761F19E2CA /* MacTransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225578B5F19DBEA21D886920 /* MacTransactionsView.swift */; };
+		1242519302EB2CD85A2DAEC6 /* MacTransactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650855BC243F4C56C69158CC /* MacTransactionsViewModel.swift */; };
+		E5BE5591FAE61CFDDB5D2B73 /* MacTransactionEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D0A5C0D089132D6024E217 /* MacTransactionEntryView.swift */; };
+		CB76DF73B5BA053FDA6D8A91 /* MacTransactionEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4FF41F4B7B238ECD25B798 /* MacTransactionEntryViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0F49EFA63B3B089BDEDE73D1 /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
+		15626604C2B11326F116D02C /* MacReportsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReportsPlaceholderView.swift; sourceTree = "<group>"; };
+		19B31DEA2BA8DC5DF0741FC1 /* MacAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAccountsView.swift; sourceTree = "<group>"; };
+		1E5BDD6BB8094FD1FFE411C6 /* SettingsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPlaceholderView.swift; sourceTree = "<group>"; };
+		2452A153F26B0703D4E03DD3 /* FinanceData */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FinanceData; path = Packages/FinanceData; sourceTree = SOURCE_ROOT; };
+		271D1C9823123D81D9201BC4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		391E7981B3BE0F1DAA6DE647 /* FinanceApp_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceApp_iOS.swift; sourceTree = "<group>"; };
+		4515C6A5A5C7C7933ED4026A /* AccountEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEditViewModel.swift; sourceTree = "<group>"; };
+		461CDA5F941EEB36A8F13F07 /* AccountDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailViewModel.swift; sourceTree = "<group>"; };
+		4A5D6411E0759E145EA1A9EC /* MacTransactionsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTransactionsPlaceholderView.swift; sourceTree = "<group>"; };
+		5FA961BA2BEE676FF936465F /* OnboardingPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPlaceholderView.swift; sourceTree = "<group>"; };
+		611951F18347BB810B0BC645 /* FinanceApp_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceApp_macOS.swift; sourceTree = "<group>"; };
+		6AB4C0D6D30EDB9FB343DC3E /* ReportsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsPlaceholderView.swift; sourceTree = "<group>"; };
+		6B14815600EC742141DD3B38 /* TransactionsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsPlaceholderView.swift; sourceTree = "<group>"; };
+		6D6A43D11C8432D9120F8EB3 /* MacSettingsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacSettingsPlaceholderView.swift; sourceTree = "<group>"; };
+		73A7EE079A0F03C6E94FD438 /* MacContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacContentView.swift; sourceTree = "<group>"; };
+		7B7DA59632F078DAF8D53A27 /* MacAccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAccountDetailView.swift; sourceTree = "<group>"; };
+		8B095CAA86FC559253DF8A9D /* CategoriesPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesPlaceholderView.swift; sourceTree = "<group>"; };
+		930A3132D6965A93F84FD709 /* AccountEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEditView.swift; sourceTree = "<group>"; };
+		9AC62E50770D307BC6B18ABC /* FinanceCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FinanceCore; path = Packages/FinanceCore; sourceTree = SOURCE_ROOT; };
+		9B42C8C6132B03207BCA72B6 /* FinanceApp-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FinanceApp-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A224130FE08BBDAA01B2575C /* AccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
+		A27F719CAF54EE2999FBC7B4 /* AccountListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountListViewModel.swift; sourceTree = "<group>"; };
+		AF822661B5B6A7BF79D9F242 /* FinanceUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FinanceUI; path = Packages/FinanceUI; sourceTree = SOURCE_ROOT; };
+		B56072BB8AD3579FF16470AA /* MacAccountContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAccountContextMenu.swift; sourceTree = "<group>"; };
+		C7455C5AACD8227716B18F49 /* MacAccountEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAccountEditView.swift; sourceTree = "<group>"; };
+		CE86A767770B12407E0060D5 /* MacCategoriesPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCategoriesPlaceholderView.swift; sourceTree = "<group>"; };
+		D69E026D79D0038936E445CE /* DashboardPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardPlaceholderView.swift; sourceTree = "<group>"; };
+		D739D6D2B556D84EC6CAC331 /* BalanceAdjustSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceAdjustSheet.swift; sourceTree = "<group>"; };
+		EAA5113160F98DC2F6810E69 /* MacDashboardPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacDashboardPlaceholderView.swift; sourceTree = "<group>"; };
+		F9080BF6AEE035BDBF614C5B /* FinanceApp-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FinanceApp-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC3DCF18CFE76F5C8E7D4200 /* MacAccountsSidebarSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAccountsSidebarSection.swift; sourceTree = "<group>"; };
+		58A7B459DEE1E468120829D5 /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
+		004E31089859653BCAD74232 /* TransactionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewModel.swift; sourceTree = "<group>"; };
+		0D818C26B615E224F1A78484 /* QuickInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickInputView.swift; sourceTree = "<group>"; };
+		652EEEACA38939900752A4CC /* QuickInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickInputViewModel.swift; sourceTree = "<group>"; };
+		0B911D2DB94342044F14933A /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
+		B60499D64543733ECB2E2D80 /* TransactionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewModel.swift; sourceTree = "<group>"; };
+		CE4BF39D1A1A00DE7535C711 /* TransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferView.swift; sourceTree = "<group>"; };
+		A9B7B49FAB783FC9AFD479DC /* TransferViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferViewModel.swift; sourceTree = "<group>"; };
+		225578B5F19DBEA21D886920 /* MacTransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTransactionsView.swift; sourceTree = "<group>"; };
+		650855BC243F4C56C69158CC /* MacTransactionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTransactionsViewModel.swift; sourceTree = "<group>"; };
+		29D0A5C0D089132D6024E217 /* MacTransactionEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTransactionEntryView.swift; sourceTree = "<group>"; };
+		2C4FF41F4B7B238ECD25B798 /* MacTransactionEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTransactionEntryViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		02A0C44F8D77375263716E6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				481AF0F8385697B65F55FE64 /* FinanceCore in Frameworks */,
+				4B9B501BAC0553761A96F348 /* FinanceData in Frameworks */,
+				5DF3597EF6E2701281B5382F /* FinanceUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7477CE91F2627C3412BE1588 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCD8D6C0BAD62B2F8B91ADFB /* FinanceCore in Frameworks */,
+				C21B7BFCED27AC9DBE6A0201 /* FinanceData in Frameworks */,
+				EB339B477CF47CC4CD6DC4D1 /* FinanceUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1494E64C09E622217BD0B05F /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				15626604C2B11326F116D02C /* MacReportsPlaceholderView.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		1E2B6D0084324D3226EEAC90 /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				29D0A5C0D089132D6024E217 /* MacTransactionEntryView.swift */,
+				2C4FF41F4B7B238ECD25B798 /* MacTransactionEntryViewModel.swift */,
+				225578B5F19DBEA21D886920 /* MacTransactionsView.swift */,
+				650855BC243F4C56C69158CC /* MacTransactionsViewModel.swift */,
+				4A5D6411E0759E145EA1A9EC /* MacTransactionsPlaceholderView.swift */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
+		1F41C3CA46FB57181AD3F86A /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				BD297570873967B434839D09 /* App */,
+				85D82DC17C84BA22820821D9 /* Extensions */,
+				5B45462B19521F31A2E1A1F7 /* Features */,
+				3E0B364BD0B65C74C890DBDE /* Navigation */,
+			);
+			name = Sources;
+			path = "FinanceApp-macOS/Sources";
+			sourceTree = "<group>";
+		};
+		2873FA50AF611F3D1B2F3BCB /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				40CCCF0DC7AB43DB73E28A7D /* Accounts */,
+				D945CE3B53FF0B0AFC7000C8 /* Categories */,
+				34CE5A9CB4C3333625AA0D2D /* Dashboard */,
+				FD55BB1A7A8CF8D9E02F69D7 /* Onboarding */,
+				B953D3FD2F829EC305E59D7E /* Reports */,
+				FBD8E322793D7CC396F13986 /* Settings */,
+				330EB19620B583ADDED4500C /* Transactions */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		29F6608C8E7C63005D680666 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B42C8C6132B03207BCA72B6 /* FinanceApp-iOS.app */,
+				F9080BF6AEE035BDBF614C5B /* FinanceApp-macOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		330EB19620B583ADDED4500C /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				0D818C26B615E224F1A78484 /* QuickInputView.swift */,
+				652EEEACA38939900752A4CC /* QuickInputViewModel.swift */,
+				0B911D2DB94342044F14933A /* TransactionDetailView.swift */,
+				B60499D64543733ECB2E2D80 /* TransactionDetailViewModel.swift */,
+				58A7B459DEE1E468120829D5 /* TransactionListView.swift */,
+				004E31089859653BCAD74232 /* TransactionListViewModel.swift */,
+				6B14815600EC742141DD3B38 /* TransactionsPlaceholderView.swift */,
+				CE4BF39D1A1A00DE7535C711 /* TransferView.swift */,
+				A9B7B49FAB783FC9AFD479DC /* TransferViewModel.swift */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
+		3459B6B780B9D19ABFE7DB42 /* Accounts */ = {
+			isa = PBXGroup;
+			children = (
+				B56072BB8AD3579FF16470AA /* MacAccountContextMenu.swift */,
+				7B7DA59632F078DAF8D53A27 /* MacAccountDetailView.swift */,
+				C7455C5AACD8227716B18F49 /* MacAccountEditView.swift */,
+				FC3DCF18CFE76F5C8E7D4200 /* MacAccountsSidebarSection.swift */,
+				19B31DEA2BA8DC5DF0741FC1 /* MacAccountsView.swift */,
+			);
+			path = Accounts;
+			sourceTree = "<group>";
+		};
+		34CE5A9CB4C3333625AA0D2D /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				D69E026D79D0038936E445CE /* DashboardPlaceholderView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		3801C9CC96EE8FADCCD0E95E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				6D6A43D11C8432D9120F8EB3 /* MacSettingsPlaceholderView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		3E0B364BD0B65C74C890DBDE /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		40CCCF0DC7AB43DB73E28A7D /* Accounts */ = {
+			isa = PBXGroup;
+			children = (
+				0F49EFA63B3B089BDEDE73D1 /* AccountDetailView.swift */,
+				461CDA5F941EEB36A8F13F07 /* AccountDetailViewModel.swift */,
+				930A3132D6965A93F84FD709 /* AccountEditView.swift */,
+				4515C6A5A5C7C7933ED4026A /* AccountEditViewModel.swift */,
+				A224130FE08BBDAA01B2575C /* AccountListView.swift */,
+				A27F719CAF54EE2999FBC7B4 /* AccountListViewModel.swift */,
+				D739D6D2B556D84EC6CAC331 /* BalanceAdjustSheet.swift */,
+			);
+			path = Accounts;
+			sourceTree = "<group>";
+		};
+		41664911853B1A777938E8B9 = {
+			isa = PBXGroup;
+			children = (
+				5838E8480D1B16CACB40D151 /* Packages */,
+				41A64C9EA4A60BB26D63DC9D /* Sources */,
+				1F41C3CA46FB57181AD3F86A /* Sources */,
+				29F6608C8E7C63005D680666 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		41A64C9EA4A60BB26D63DC9D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E5AD6DCFAFD55E56F2985812 /* App */,
+				9A6DB69F0A00823793B5EA5B /* Extensions */,
+				2873FA50AF611F3D1B2F3BCB /* Features */,
+				8BDA1A5CE46E139016DF65C4 /* Navigation */,
+			);
+			name = Sources;
+			path = "FinanceApp-iOS/Sources";
+			sourceTree = "<group>";
+		};
+		5838E8480D1B16CACB40D151 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				9AC62E50770D307BC6B18ABC /* FinanceCore */,
+				2452A153F26B0703D4E03DD3 /* FinanceData */,
+				AF822661B5B6A7BF79D9F242 /* FinanceUI */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		5B45462B19521F31A2E1A1F7 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				3459B6B780B9D19ABFE7DB42 /* Accounts */,
+				EEDD11A4496AFFA0488AD780 /* Categories */,
+				CF00B8AD01D56DE1EDFCFD81 /* Dashboard */,
+				1494E64C09E622217BD0B05F /* Reports */,
+				3801C9CC96EE8FADCCD0E95E /* Settings */,
+				1E2B6D0084324D3226EEAC90 /* Transactions */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		85D82DC17C84BA22820821D9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8BDA1A5CE46E139016DF65C4 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		9A6DB69F0A00823793B5EA5B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B953D3FD2F829EC305E59D7E /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				6AB4C0D6D30EDB9FB343DC3E /* ReportsPlaceholderView.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		BD297570873967B434839D09 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				611951F18347BB810B0BC645 /* FinanceApp_macOS.swift */,
+				73A7EE079A0F03C6E94FD438 /* MacContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		CF00B8AD01D56DE1EDFCFD81 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				EAA5113160F98DC2F6810E69 /* MacDashboardPlaceholderView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		D945CE3B53FF0B0AFC7000C8 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				8B095CAA86FC559253DF8A9D /* CategoriesPlaceholderView.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		E5AD6DCFAFD55E56F2985812 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				271D1C9823123D81D9201BC4 /* ContentView.swift */,
+				391E7981B3BE0F1DAA6DE647 /* FinanceApp_iOS.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		EEDD11A4496AFFA0488AD780 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				CE86A767770B12407E0060D5 /* MacCategoriesPlaceholderView.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		FBD8E322793D7CC396F13986 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1E5BDD6BB8094FD1FFE411C6 /* SettingsPlaceholderView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		FD55BB1A7A8CF8D9E02F69D7 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				5FA961BA2BEE676FF936465F /* OnboardingPlaceholderView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		93228A74122FF530C5862FB4 /* FinanceApp-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB32F069186A42CDB491BDB7 /* Build configuration list for PBXNativeTarget "FinanceApp-macOS" */;
+			buildPhases = (
+				551F7E9C68C66A0E42FADB25 /* Sources */,
+				02A0C44F8D77375263716E6A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FinanceApp-macOS";
+			packageProductDependencies = (
+				EE36DAE878C57D2CD10062D9 /* FinanceCore */,
+				409BAF0E99CD5CC1729CBB72 /* FinanceData */,
+				FC0E0F98A8A1FA7D42FCAD63 /* FinanceUI */,
+			);
+			productName = "FinanceApp-macOS";
+			productReference = F9080BF6AEE035BDBF614C5B /* FinanceApp-macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA44AD860E97EC2AD74ED23D /* FinanceApp-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F489D85EAD115FAACF17ED26 /* Build configuration list for PBXNativeTarget "FinanceApp-iOS" */;
+			buildPhases = (
+				10EF16EED12F8C5FDF07196D /* Sources */,
+				7477CE91F2627C3412BE1588 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FinanceApp-iOS";
+			packageProductDependencies = (
+				90E2713127D76CD3D600561B /* FinanceCore */,
+				30BAB823B75B769D9F283118 /* FinanceData */,
+				B5DBE8E10BB6A57702469171 /* FinanceUI */,
+			);
+			productName = "FinanceApp-iOS";
+			productReference = 9B42C8C6132B03207BCA72B6 /* FinanceApp-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2AB1CACC86CDDCD4EEDD6F2B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					93228A74122FF530C5862FB4 = {
+						ProvisioningStyle = Automatic;
+					};
+					AA44AD860E97EC2AD74ED23D = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 3D389913F47E61BD30E75F42 /* Build configuration list for PBXProject "FinanceApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 41664911853B1A777938E8B9;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5DA874879F8875EEE43E045C /* XCLocalSwiftPackageReference "Packages/FinanceCore" */,
+				F5387761BC1A8F79E3B42782 /* XCLocalSwiftPackageReference "Packages/FinanceData" */,
+				5060473A64A9D9B9027B37A2 /* XCLocalSwiftPackageReference "Packages/FinanceUI" */,
+			);
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA44AD860E97EC2AD74ED23D /* FinanceApp-iOS */,
+				93228A74122FF530C5862FB4 /* FinanceApp-macOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		10EF16EED12F8C5FDF07196D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				329A92C3B00305D3FFEB3953 /* AccountDetailView.swift in Sources */,
+				4BA9A910F16371704605108E /* AccountDetailViewModel.swift in Sources */,
+				4E002786F102E9A8D5F3A916 /* AccountEditView.swift in Sources */,
+				0224B92BDB03C7772CCAFA1A /* AccountEditViewModel.swift in Sources */,
+				A41E18356F25EFC96A75964D /* AccountListView.swift in Sources */,
+				AF8FA886364BD18E2FFC4F17 /* AccountListViewModel.swift in Sources */,
+				580D7A954B1DA2B035986206 /* BalanceAdjustSheet.swift in Sources */,
+				25FBC43DA4004FBA5C4D161B /* CategoriesPlaceholderView.swift in Sources */,
+				74BEBB2C4288A3D32B1B5E2C /* ContentView.swift in Sources */,
+				DF4F94C03BD891CF40033765 /* DashboardPlaceholderView.swift in Sources */,
+				F56F17E52FC2702B32C34F93 /* FinanceApp_iOS.swift in Sources */,
+				900F6413D687CD1518367316 /* OnboardingPlaceholderView.swift in Sources */,
+				D2E8A3A5494808833114A373 /* ReportsPlaceholderView.swift in Sources */,
+				6DB9B4152D32EC26C0FF148B /* SettingsPlaceholderView.swift in Sources */,
+				223977BABCFB6C5F9D7310A1 /* TransactionsPlaceholderView.swift in Sources */,
+				71710D7E004E4817AF5FFE53 /* TransactionListView.swift in Sources */,
+				BB2D802E66133C3BE009CD83 /* TransactionListViewModel.swift in Sources */,
+				5FD4ED954B3C7DB477CAC79B /* QuickInputView.swift in Sources */,
+				7ED5D201CEF42F8EDD6854A1 /* QuickInputViewModel.swift in Sources */,
+				1E513FF7F9CB475906A847EF /* TransactionDetailView.swift in Sources */,
+				8F50C1D33B10A532E9852AD4 /* TransactionDetailViewModel.swift in Sources */,
+				B5112E685E27E1035E4E7E24 /* TransferView.swift in Sources */,
+				08278B9D53BDE65FAA5B42AA /* TransferViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		551F7E9C68C66A0E42FADB25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9E4ACC11C99A69070BA29A3 /* FinanceApp_macOS.swift in Sources */,
+				920A84CF05BA32AA6B48D161 /* MacAccountContextMenu.swift in Sources */,
+				00DC2EC44A57D7494340925E /* MacAccountDetailView.swift in Sources */,
+				D399AC612D97E90F7B911CDB /* MacAccountEditView.swift in Sources */,
+				77AE23CB0ACC5439F5A410A2 /* MacAccountsSidebarSection.swift in Sources */,
+				317A50DEACEF1E08D4379FF0 /* MacAccountsView.swift in Sources */,
+				0903D19DCE3FE05AEF5C3BF3 /* MacCategoriesPlaceholderView.swift in Sources */,
+				7F389287275AFC5017B1AC40 /* MacContentView.swift in Sources */,
+				A0CF74B4632CBA4008F51FA4 /* MacDashboardPlaceholderView.swift in Sources */,
+				30E2EDA421D9E0C665D76FEB /* MacReportsPlaceholderView.swift in Sources */,
+				68F09AF8E80E7F8C077C1F0C /* MacSettingsPlaceholderView.swift in Sources */,
+				BA0287754B99799E84CD5EE9 /* MacTransactionsPlaceholderView.swift in Sources */,
+				2BF2D1E4F0569B761F19E2CA /* MacTransactionsView.swift in Sources */,
+				1242519302EB2CD85A2DAEC6 /* MacTransactionsViewModel.swift in Sources */,
+				E5BE5591FAE61CFDDB5D2B73 /* MacTransactionEntryView.swift in Sources */,
+				CB76DF73B5BA053FDA6D8A91 /* MacTransactionEntryViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1C11B8EF098EE0E82A6B38C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "FinanceApp-iOS/Resources/FinanceApp_iOS.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_GENERATION_MODE = GeneratedByBuildSystem;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vela.financeapp.ios;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		343F15AA0229DDE8851DE156 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.1;
+			};
+			name = Debug;
+		};
+		3A2B739361AFE520B32A2D54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "FinanceApp-iOS/Resources/FinanceApp_iOS.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_GENERATION_MODE = GeneratedByBuildSystem;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vela.financeapp.ios;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6804609BE685C5577D2E1E56 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_GENERATION_MODE = GeneratedByBuildSystem;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vela.financeapp.macos;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		B7AB756C4A09DF728DAA010F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_GENERATION_MODE = GeneratedByBuildSystem;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vela.financeapp.macos;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		FF59084E303E30C70D9CB53F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3D389913F47E61BD30E75F42 /* Build configuration list for PBXProject "FinanceApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				343F15AA0229DDE8851DE156 /* Debug */,
+				FF59084E303E30C70D9CB53F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DB32F069186A42CDB491BDB7 /* Build configuration list for PBXNativeTarget "FinanceApp-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7AB756C4A09DF728DAA010F /* Debug */,
+				6804609BE685C5577D2E1E56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F489D85EAD115FAACF17ED26 /* Build configuration list for PBXNativeTarget "FinanceApp-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C11B8EF098EE0E82A6B38C9 /* Debug */,
+				3A2B739361AFE520B32A2D54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		5060473A64A9D9B9027B37A2 /* XCLocalSwiftPackageReference "Packages/FinanceUI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FinanceUI;
+		};
+		5DA874879F8875EEE43E045C /* XCLocalSwiftPackageReference "Packages/FinanceCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FinanceCore;
+		};
+		F5387761BC1A8F79E3B42782 /* XCLocalSwiftPackageReference "Packages/FinanceData" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FinanceData;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		30BAB823B75B769D9F283118 /* FinanceData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FinanceData;
+		};
+		409BAF0E99CD5CC1729CBB72 /* FinanceData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FinanceData;
+		};
+		90E2713127D76CD3D600561B /* FinanceCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FinanceCore;
+		};
+		B5DBE8E10BB6A57702469171 /* FinanceUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FinanceUI;
+		};
+		EE36DAE878C57D2CD10062D9 /* FinanceCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FinanceCore;
+		};
+		FC0E0F98A8A1FA7D42FCAD63 /* FinanceUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FinanceUI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 2AB1CACC86CDDCD4EEDD6F2B /* Project object */;
+}
