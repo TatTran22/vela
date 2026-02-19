@@ -27,6 +27,9 @@ public enum ModelContainerSetup: Sendable {
         let schema = Schema([
             AccountEntity.self,
             ExchangeRateEntity.self,
+            TransactionEntity.self,
+            TagEntity.self,
+            CategoryEntity.self,
         ])
 
         let cloudKitDatabase: ModelConfiguration.CloudKitDatabase
