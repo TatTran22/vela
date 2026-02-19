@@ -113,9 +113,9 @@ public struct ExchangeRateUseCase: ExchangeRateUseCaseProtocol {
     }
 
     public func getRate(from: CurrencyCode, to: CurrencyCode) async throws -> Decimal {
-        // If same currency, rate is 1.0
+        // If same currency, rate is 1
         if from == to {
-            return 1.0
+            return Decimal(1)
         }
 
         // Try to fetch cached rate

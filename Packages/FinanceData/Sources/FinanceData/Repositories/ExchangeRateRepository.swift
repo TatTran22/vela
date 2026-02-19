@@ -41,16 +41,21 @@ public actor ExchangeRateRepository: ExchangeRateRepositoryProtocol {
 
     public func saveRates(_ rates: [ExchangeRate]) async throws {
         for rate in rates {
-            // Try to find existing rate for the same currency pair and date
+            // Try to find existing rate for the same currency pair on the same day
+            let baseCurrency = rate.baseCurrency.rawValue
+            let targetCurrency = rate.targetCurrency.rawValue
             var descriptor = FetchDescriptor<ExchangeRateEntity>()
             descriptor.predicate = #Predicate<ExchangeRateEntity> { entity in
-                entity.baseCurrency == rate.baseCurrency.rawValue &&
-                entity.targetCurrency == rate.targetCurrency.rawValue &&
-                entity.id == rate.id
+                entity.baseCurrency == baseCurrency &&
+                entity.targetCurrency == targetCurrency
             }
-            descriptor.fetchLimit = 1
 
-            if let existing = try modelContext.fetch(descriptor).first {
+            let existingEntities = try modelContext.fetch(descriptor)
+            let sameDayEntity = existingEntities.first { entity in
+                Calendar.current.isDate(entity.date, inSameDayAs: rate.date)
+            }
+
+            if let existing = sameDayEntity {
                 existing.update(from: rate)
             } else {
                 let entity = ExchangeRateEntity.from(domain: rate)

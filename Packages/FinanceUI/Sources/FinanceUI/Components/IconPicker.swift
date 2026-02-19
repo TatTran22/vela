@@ -107,9 +107,9 @@ public struct IconPicker: View {
             .padding(.vertical)
         }
         .navigationTitle("Choose Icon")
+        .searchable(text: $searchText, prompt: "Search icons")
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        .searchable(text: $searchText, prompt: "Search icons")
         #endif
     }
 }

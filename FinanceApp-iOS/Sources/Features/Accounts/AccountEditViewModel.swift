@@ -121,6 +121,10 @@ final class AccountEditViewModel {
             fieldErrors["name"] = "Account name is required"
         }
 
+        if !isEditing && Decimal(string: initialBalance) == nil {
+            fieldErrors["balance"] = "Please enter a valid number"
+        }
+
         return fieldErrors.isEmpty
     }
 

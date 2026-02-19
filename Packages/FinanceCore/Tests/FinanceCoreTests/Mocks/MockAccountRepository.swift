@@ -10,7 +10,7 @@ actor MockAccountRepository: AccountRepositoryProtocol {
     private var accounts: [UUID: Account] = [:]
 
     func fetchAll() async throws -> [Account] {
-        Array(accounts.values)
+        accounts.values.filter { $0.deletedAt == nil }
     }
 
     func fetch(by id: UUID) async throws -> Account? {

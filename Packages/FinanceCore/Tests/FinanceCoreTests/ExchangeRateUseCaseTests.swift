@@ -284,11 +284,11 @@ struct ExchangeRateUseCaseTests {
 // MARK: - Helper Extensions for MockExchangeRateService
 
 extension MockExchangeRateService {
-    func setShouldThrowError(_ value: Bool) {
+    func setShouldThrowError(_ value: Bool) async {
         shouldThrowError = value
     }
 
-    func setMockRates(_ rates: [ExchangeRate]) {
+    func setMockRates(_ rates: [ExchangeRate]) async {
         mockRates = rates
     }
 }

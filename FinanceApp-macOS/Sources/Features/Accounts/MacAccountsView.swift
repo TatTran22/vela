@@ -6,33 +6,45 @@ import SwiftUI
 /// Main accounts view for macOS displaying account list and detail panes.
 ///
 /// Uses HSplitView to provide a two-pane layout: account list on the left grouped
-/// by type, and selected account details on the right. Manages loading, creating,
-/// editing, and deleting accounts with proper dependency injection.
+/// by type, and selected account details on the right. All business logic is
+/// delegated to `MacAccountsViewModel`.
 struct MacAccountsView: View {
-    /// SwiftData model container for data access
-    let modelContainer: ModelContainer
+
+    // MARK: - ViewModel
+
+    @State private var viewModel: MacAccountsViewModel
+
+    // MARK: - Local UI state
 
     @State private var selectedAccount: Account?
-    @State private var accounts: [Account] = []
-    @State private var groupedAccounts: [AccountType: [Account]] = [:]
-    @State private var isLoading = true
     @State private var showingNewAccount = false
     @State private var accountToEdit: Account?
-    @State private var errorMessage: String?
 
-    // Use cases
-    private var repository: AccountRepository { AccountRepository(modelContainer: modelContainer) }
-    private var getAccountsUseCase: GetAccountsUseCaseProtocol { GetAccountsUseCase(repository: repository) }
-    private var createAccountUseCase: CreateAccountUseCaseProtocol { CreateAccountUseCase(repository: repository) }
-    private var updateAccountUseCase: UpdateAccountUseCaseProtocol { UpdateAccountUseCase(repository: repository) }
-    private var deleteAccountUseCase: DeleteAccountUseCaseProtocol { DeleteAccountUseCase(repository: repository) }
+    // MARK: - Model container reference (kept for the edit sheet)
+
+    private let modelContainer: ModelContainer
+
+    // MARK: - Init
+
+    /// Creates the view from a SwiftData `ModelContainer`.
+    ///
+    /// - Parameter modelContainer: The SwiftData container used to initialise
+    ///   the view model and all underlying repositories.
+    init(modelContainer: ModelContainer) {
+        self.modelContainer = modelContainer
+        _viewModel = State(
+            initialValue: MacAccountsViewModel(modelContainer: modelContainer)
+        )
+    }
+
+    // MARK: - Body
 
     var body: some View {
         Group {
-            if isLoading {
+            if viewModel.isLoading && viewModel.accounts.isEmpty {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if accounts.isEmpty {
+            } else if viewModel.accounts.isEmpty {
                 ContentUnavailableView {
                     Label("No Accounts", systemImage: "creditcard")
                 } description: {
@@ -57,7 +69,12 @@ struct MacAccountsView: View {
                                 accountToEdit = account
                                 showingNewAccount = true
                             },
-                            onDelete: { Task { await deleteAccount(account.id) } }
+                            onDelete: {
+                                Task {
+                                    let deleted = await viewModel.deleteAccount(account.id)
+                                    if deleted { selectedAccount = nil }
+                                }
+                            }
                         )
                     } else {
                         ContentUnavailableView("Select an Account", systemImage: "creditcard")
@@ -66,7 +83,7 @@ struct MacAccountsView: View {
                 }
             }
         }
-        .task { await loadAccounts() }
+        .task { await viewModel.loadAccounts() }
         .toolbar {
             ToolbarItem {
                 Button {
@@ -82,11 +99,11 @@ struct MacAccountsView: View {
             NavigationStack {
                 MacAccountEditView(
                     account: accountToEdit,
-                    createAccountUseCase: createAccountUseCase,
-                    updateAccountUseCase: updateAccountUseCase,
+                    createAccountUseCase: viewModel.createUseCase,
+                    updateAccountUseCase: viewModel.updateUseCase,
                     onSave: {
                         accountToEdit = nil
-                        Task { await loadAccounts() }
+                        Task { await viewModel.loadAccounts() }
                     }
                 )
             }
@@ -96,121 +113,50 @@ struct MacAccountsView: View {
                 accountToEdit = nil
             }
         }
-        .alert("Error", isPresented: .constant(errorMessage != nil)) {
-            Button("OK") { errorMessage = nil }
+        // Keep selectedAccount in sync after any reload
+        .onChange(of: viewModel.accounts) { _, newAccounts in
+            if let selected = selectedAccount,
+               !newAccounts.contains(where: { $0.id == selected.id }) {
+                selectedAccount = nil
+            }
+        }
+        .alert("Error", isPresented: $viewModel.showError) {
+            Button("OK") { viewModel.showError = false }
         } message: {
-            if let errorMessage {
-                Text(errorMessage)
+            if let message = viewModel.errorMessage {
+                Text(message)
             }
         }
     }
 
-    /// Account list pane with sidebar.
+    // MARK: - Account list pane
+
+    /// Account list pane with sidebar showing accounts grouped by type.
     private var accountListPane: some View {
         List(selection: $selectedAccount) {
             MacAccountsSidebarSection(
-                groupedAccounts: groupedAccounts,
+                groupedAccounts: viewModel.groupedAccounts,
                 selectedAccount: $selectedAccount,
                 onEdit: { account in
                     accountToEdit = account
                     showingNewAccount = true
                 },
                 onArchive: { account in
-                    Task { await archiveAccount(account) }
+                    Task { await viewModel.archiveAccount(account) }
                 },
                 onHide: { account in
-                    Task { await toggleHidden(account) }
+                    Task { await viewModel.toggleHidden(account) }
                 },
                 onDelete: { account in
-                    Task { await deleteAccount(account.id) }
+                    Task {
+                        let deleted = await viewModel.deleteAccount(account.id)
+                        if deleted, selectedAccount?.id == account.id {
+                            selectedAccount = nil
+                        }
+                    }
                 }
             )
         }
         .frame(minWidth: 250)
-    }
-
-    /// Loads all accounts and groups them by type.
-    private func loadAccounts() async {
-        isLoading = true
-        errorMessage = nil
-
-        do {
-            let filter = AccountFilter(
-                includeArchived: true,
-                includeHidden: true,
-                types: nil
-            )
-            accounts = try await getAccountsUseCase.execute(filter: filter)
-            groupedAccounts = try await getAccountsUseCase.executeGrouped(filter: filter)
-
-            // Ensure selected account is still valid
-            if let selected = selectedAccount,
-               !accounts.contains(where: { $0.id == selected.id }) {
-                selectedAccount = nil
-            }
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-
-        isLoading = false
-    }
-
-    /// Deletes an account by ID.
-    ///
-    /// - Parameter accountID: The UUID of the account to delete
-    private func deleteAccount(_ accountID: UUID) async {
-        errorMessage = nil
-
-        do {
-            // For now, assume no transactions
-            try await deleteAccountUseCase.execute(accountID: accountID, hasTransactions: false)
-
-            // Clear selection if deleted account was selected
-            if selectedAccount?.id == accountID {
-                selectedAccount = nil
-            }
-
-            await loadAccounts()
-        } catch let error as AccountError {
-            errorMessage = error.localizedDescription
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-
-    /// Toggles the archived state of an account.
-    ///
-    /// - Parameter account: The account to archive or unarchive
-    private func archiveAccount(_ account: Account) async {
-        var updated = account
-        updated.isArchived.toggle()
-        updated.updatedAt = Date()
-
-        do {
-            _ = try await updateAccountUseCase.execute(updated, hasTransactions: false)
-            await loadAccounts()
-        } catch let error as AccountError {
-            errorMessage = error.localizedDescription
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-
-    /// Toggles the hidden state of an account.
-    ///
-    /// - Parameter account: The account to show or hide
-    private func toggleHidden(_ account: Account) async {
-        var updated = account
-        updated.isHidden.toggle()
-        updated.updatedAt = Date()
-
-        do {
-            _ = try await updateAccountUseCase.execute(updated, hasTransactions: false)
-            await loadAccounts()
-        } catch let error as AccountError {
-            errorMessage = error.localizedDescription
-        } catch {
-            errorMessage = error.localizedDescription
-        }
     }
 }

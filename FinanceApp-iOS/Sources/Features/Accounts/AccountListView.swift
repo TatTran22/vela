@@ -188,19 +188,4 @@ struct AccountListView: View {
         )
     }
 
-    private func makeListViewModel() -> AccountListViewModel {
-        let container = modelContext.container
-        let repository = AccountRepository(modelContainer: container)
-        let getAccounts = GetAccountsUseCase(repository: repository)
-        let deleteAccount = DeleteAccountUseCase(repository: repository)
-        let updateAccount = UpdateAccountUseCase(repository: repository)
-        let reorderAccounts = ReorderAccountsUseCase(repository: repository)
-
-        return AccountListViewModel(
-            getAccountsUseCase: getAccounts,
-            deleteAccountUseCase: deleteAccount,
-            updateAccountUseCase: updateAccount,
-            reorderAccountsUseCase: reorderAccounts
-        )
-    }
 }

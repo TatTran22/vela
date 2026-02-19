@@ -61,7 +61,7 @@ struct BalanceAdjustSheet: View {
                                     .foregroundStyle(parsedAdjustment > 0 ? .green : .red)
                                     .font(.caption)
 
-                                Text(abs(parsedAdjustment).description)
+                                Text(CurrencyFormatter(currencyCode: account.currency).format(abs(parsedAdjustment)))
                                     .foregroundStyle(.secondary)
                                     .font(.caption)
                             }

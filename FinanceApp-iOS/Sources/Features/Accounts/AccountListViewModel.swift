@@ -36,6 +36,12 @@ final class AccountListViewModel {
     private let updateAccountUseCase: UpdateAccountUseCaseProtocol
     private let reorderAccountsUseCase: ReorderAccountsUseCaseProtocol
 
+    /// Optional closure to check whether an account has associated transactions.
+    ///
+    /// Inject this at the call site to avoid a hard dependency on TransactionRepository.
+    /// Defaults to `false` (no transactions) when `nil`.
+    var checkHasTransactions: ((UUID) async -> Bool)?
+
     // MARK: - Initialization
 
     /// Creates a new account list view model
@@ -99,8 +105,9 @@ final class AccountListViewModel {
     /// - Parameter id: The account ID to delete
     func deleteAccount(_ id: UUID) async {
         do {
-            // For now, assume no transactions
-            try await deleteAccountUseCase.execute(accountID: id, hasTransactions: false)
+            // TODO: Remove closure once TransactionRepository is injected directly.
+            let hasTransactions = await checkHasTransactions?(id) ?? false
+            try await deleteAccountUseCase.execute(accountID: id, hasTransactions: hasTransactions)
             await loadAccounts()
         } catch let accountError as AccountError {
             error = accountError
@@ -175,7 +182,7 @@ final class AccountListViewModel {
         let orderedIDs = sectionAccounts.map { $0.id }
         Task {
             do {
-                try await reorderAccountsUseCase.execute(orderedIDs: orderedIDs)
+                try await reorderAccountsUseCase.execute(orderedIDs: orderedIDs, startingAt: 0)
             } catch let accountError as AccountError {
                 error = accountError
                 showError = true
@@ -186,9 +193,17 @@ final class AccountListViewModel {
     }
 
     /// Calculates the total balance for a specific account type section
+    ///
+    /// Only accounts whose currency matches `primaryCurrency` are summed to avoid
+    /// meaningless cross-currency addition. Accounts in other currencies are excluded.
+    ///
     /// - Parameter type: The account type
-    /// - Returns: The sum of all account balances for that type
+    /// - Returns: The sum of balances for accounts in the primary currency for that type
     func sectionBalance(for type: AccountType) -> Decimal {
-        (groupedAccounts[type] ?? []).reduce(0) { $0 + $1.balance }
+        let accounts = groupedAccounts[type] ?? []
+        // Only sum accounts in the primary currency to avoid mixing currencies
+        return accounts
+            .filter { $0.currency == primaryCurrency }
+            .reduce(0) { $0 + $1.balance }
     }
 }

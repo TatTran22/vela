@@ -263,4 +263,109 @@ struct GetAccountsUseCaseTests {
         // Assert
         #expect(grouped.isEmpty)
     }
+
+    // MARK: - Test: executeTotalBalance falls back to repository when no exchange rate use case
+
+    @Test("executeTotalBalance falls back to repository when no exchange rate use case")
+    func totalBalanceFallsBackToRepository() async throws {
+        // Arrange
+        let repository = MockAccountRepository()
+        // No exchangeRateUseCase — fallback path
+        let useCase = GetAccountsUseCase(repository: repository)
+
+        let account = Account(name: "Cash", type: .cash, currency: .VND, balance: 500_000)
+        try await repository.save(account)
+
+        // Act
+        let total = try await useCase.executeTotalBalance(in: .VND)
+
+        // Assert — MockAccountRepository sums same-currency balances
+        #expect(total == 500_000)
+    }
+
+    // MARK: - Test: executeTotalBalance aggregates multi-currency accounts
+
+    @Test("executeTotalBalance converts and sums multi-currency accounts")
+    func totalBalanceConvertsMultiCurrencyAccounts() async throws {
+        // Arrange
+        let accountRepo = MockAccountRepository()
+        let rateRepo = MockExchangeRateRepository()
+
+        // Seed a USD→VND rate of 25,000
+        let rate = ExchangeRate(
+            baseCurrency: .USD,
+            targetCurrency: .VND,
+            rate: 25_000,
+            date: Date(),
+            source: "test"
+        )
+        try await rateRepo.saveRates([rate])
+
+        let service = MockExchangeRateService()
+        let exchangeRateUseCase = ExchangeRateUseCase(repository: rateRepo, service: service)
+        let useCase = GetAccountsUseCase(repository: accountRepo, exchangeRateUseCase: exchangeRateUseCase)
+
+        // 2,000,000 VND account
+        let vndAccount = Account(name: "VND Cash", type: .cash, currency: .VND, balance: 2_000_000)
+        // 100 USD account — should contribute 100 * 25,000 = 2,500,000 VND
+        let usdAccount = Account(name: "USD Bank", type: .bank, currency: .USD, balance: 100)
+
+        try await accountRepo.save(vndAccount)
+        try await accountRepo.save(usdAccount)
+
+        // Act
+        let total = try await useCase.executeTotalBalance(in: .VND)
+
+        // Assert: 2,000,000 + 2,500,000 = 4,500,000
+        #expect(total == 4_500_000)
+    }
+
+    @Test("executeTotalBalance skips accounts with unavailable rates")
+    func totalBalanceSkipsUnavailableRates() async throws {
+        // Arrange — no rates seeded, service will throw for unknown pairs
+        let accountRepo = MockAccountRepository()
+        let rateRepo = MockExchangeRateRepository()
+        let service = MockExchangeRateService()
+        // Configure service to throw so there is truly no rate available
+        await service.reset()
+        let exchangeRateUseCase = ExchangeRateUseCase(repository: rateRepo, service: service)
+        let useCase = GetAccountsUseCase(repository: accountRepo, exchangeRateUseCase: exchangeRateUseCase)
+
+        // VND account can be added directly; JPY account has no rate to VND
+        let vndAccount = Account(name: "VND Cash", type: .cash, currency: .VND, balance: 1_000_000)
+        let jpyAccount = Account(name: "JPY Savings", type: .savings, currency: .JPY, balance: 10_000)
+
+        try await accountRepo.save(vndAccount)
+        try await accountRepo.save(jpyAccount)
+
+        // Act — JPY→VND will fail silently (try?), contributing 0
+        let total = try await useCase.executeTotalBalance(in: .VND)
+
+        // Assert — only the VND balance is counted
+        #expect(total == 1_000_000)
+    }
+
+    @Test("executeTotalBalance excludes archived and hidden accounts")
+    func totalBalanceExcludesArchivedAndHidden() async throws {
+        // Arrange
+        let accountRepo = MockAccountRepository()
+        let rateRepo = MockExchangeRateRepository()
+        let service = MockExchangeRateService()
+        let exchangeRateUseCase = ExchangeRateUseCase(repository: rateRepo, service: service)
+        let useCase = GetAccountsUseCase(repository: accountRepo, exchangeRateUseCase: exchangeRateUseCase)
+
+        let active = Account(name: "Active", type: .cash, currency: .VND, balance: 500_000)
+        let archived = Account(name: "Archived", type: .bank, currency: .VND, balance: 999_999, isArchived: true)
+        let hidden = Account(name: "Hidden", type: .cash, currency: .VND, balance: 999_999, isHidden: true)
+
+        try await accountRepo.save(active)
+        try await accountRepo.save(archived)
+        try await accountRepo.save(hidden)
+
+        // Act
+        let total = try await useCase.executeTotalBalance(in: .VND)
+
+        // Assert — only active account balance is included
+        #expect(total == 500_000)
+    }
 }

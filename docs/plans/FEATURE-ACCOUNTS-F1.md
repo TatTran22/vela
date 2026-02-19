@@ -1,288 +1,290 @@
-# Feature Accounts (F1.1 + F1.2) — Implementation Plan
+# FEATURE-ACCOUNTS — F1.1 Account CRUD + F1.2 Multi-currency
 
-## Context
+## Feature Description
 
-The Accounts feature is the foundation of the FinanceApp — users need to create and manage financial accounts (cash, bank, credit card, e-wallet, savings) with multi-currency support (VND primary). The codebase has scaffolding in place (basic `Account` model, empty `AccountRepository`, placeholder views) but no working implementation. This plan builds the complete Accounts feature across all layers.
+### User Stories
+- As a user, I want to create and manage financial accounts (cash, bank, credit card, e-wallet, savings, investment, loan) so I can track where my money is.
+- As a user, I want to see my total balance across all accounts, converted to my primary currency.
+- As a user with multiple currencies, I want exchange rate conversion so I can see unified balances.
 
-### Key Gaps Between Current Code and Spec
-- `Account.currency` is `String`, needs to be `CurrencyCode` enum
-- `AccountType.bankAccount` should be `.bank` per DATA-MODEL.md; `.loan` missing
-- Missing fields: `balance`, `sortOrder`, `isHidden`, `note`, `eWalletProvider`, `deletedAt`
-- `AccountRepository` is an empty shell
-- No use case implementations exist
-- All views are placeholders
-
----
-
-## Phase 1: Foundation Models & Protocols (shared-core)
-
-### 1.1 Add `CurrencyCode` enum [S]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/Models/CurrencyCode.swift`
-- Cases: VND, USD, EUR, JPY, KRW, THB, SGD, AUD, GBP, CNY
-- Conform to `String, Sendable, CaseIterable, Codable, Hashable`
-- Properties: `symbol`, `name`, `decimalPlaces` (VND/JPY/KRW=0, others=2), `flag` (emoji)
-
-### 1.2 Add `EWalletProvider` enum [S]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/Models/EWalletProvider.swift`
-- Cases: momo, zalopay, vnpay, other
-- Properties: `displayName`, `iconName`
-
-### 1.3 Enhance `Account` model [M]
-**Modify**: `Packages/FinanceCore/Sources/FinanceCore/Models/Account.swift`
-- `currency: String` -> `currency: CurrencyCode`
-- Add: `balance: Decimal`, `sortOrder: Int`, `isHidden: Bool`, `note: String?`, `eWalletProvider: EWalletProvider?`, `deletedAt: Date?`
-- Rename `AccountType.bankAccount` -> `.bank`, add `.loan`
-
-### 1.4 Add `ExchangeRate` model [S]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/Models/ExchangeRate.swift`
-- Fields: id, baseCurrency, targetCurrency, rate (Decimal), date, source
-
-### 1.5 Add `AccountRepositoryProtocol` [M]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/Protocols/AccountRepositoryProtocol.swift`
-- Methods: `fetchAll`, `fetch(by:)`, `save`, `delete(by:)`, `fetchGroupedByType`, `fetchTotalBalance(in:)`, `updateBalance(_:delta:)`, `fetchActiveCount`, `updateSortOrders`
-
-### 1.6 Add `ExchangeRateRepositoryProtocol` [S]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/Protocols/ExchangeRateRepositoryProtocol.swift`
-- Methods: `fetchRate(from:to:date:)`, `saveRates`, `deleteOldRates(before:)`
-
-### 1.7 Add domain error types [S]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/Models/AccountError.swift`
-- `AccountError`: nameEmpty, nameAlreadyExists, freeTierLimitReached, cannotChangeCurrencyWithTransactions, cannotDeleteAccountWithTransactions, accountNotFound
-- `ExchangeRateError`: rateNotFound, networkUnavailable, cacheExpired
+### Acceptance Criteria
+- [ ] CRUD operations for accounts with validation (name uniqueness, free tier limit)
+- [ ] Grouped display by account type with per-section subtotals
+- [ ] Total balance across all accounts with multi-currency conversion
+- [ ] Exchange rate fetching, caching, and offline fallback
+- [ ] Reorder accounts within type groups (drag-to-reorder)
+- [ ] Archive/hide accounts (soft delete, not hard delete)
+- [ ] Balance adjustment with auto-created adjustment transaction
+- [ ] iOS: full account list, edit, detail, and balance-adjust views
+- [ ] macOS: sidebar accounts section, edit sheet, context menu
+- [ ] VND formatting, compact notation, multi-currency pair display
 
 ---
 
-## Phase 2: Use Cases & CurrencyFormatter (shared-core)
+## Current State & Impact Analysis
 
-### 2.1 Enhance `CurrencyFormatter` [M]
-**Modify**: `Packages/FinanceCore/Sources/FinanceCore/Utilities/CurrencyFormatter.swift`
-- Accept `CurrencyCode` instead of `String`
-- VND: `1.000.000 ₫` (dot separator, 0 decimals)
-- USD: `$1,000.00`
-- Add: `formatCompact` ("1.5tr", "150k"), `formatPair(amount:from:to:rate:)`, `formatWithoutSymbol`
+### What Already Exists (feature/transactions-f1 branch)
 
-### 2.2 Implement `CreateAccountUseCase` [M]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/UseCases/CreateAccountUseCase.swift`
-- Validate: name not empty, unique name, free tier max 5 accounts
-- Auto-assign sortOrder, set balance = initialBalance
+**FinanceCore (fully implemented):**
+- `Account` model with all fields (id, name, type, currency, balance, icon, color, sortOrder, isHidden, isArchived, eWalletProvider, note, timestamps, deletedAt)
+- `AccountType` enum (cash, bank, creditCard, eWallet, savings, investment, loan, other)
+- `EWalletProvider` enum (momo, zalopay, vnpay, other)
+- `CurrencyCode` enum with symbol, name, flag, decimalPlaces
+- `ExchangeRate` model
+- `CurrencyFormatter` (VND, USD, compact format, pair format)
+- `AccountError` and `ExchangeRateError` enums
+- `AccountRepositoryProtocol`, `ExchangeRateRepositoryProtocol`
+- `CreateAccountUseCase`, `UpdateAccountUseCase`, `DeleteAccountUseCase`, `GetAccountsUseCase`, `ReorderAccountsUseCase`, `ExchangeRateUseCase`
+- `AccountFilter` model
+- Unit tests: 72+ account-related tests passing
 
-### 2.3 Implement `UpdateAccountUseCase` [M]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/UseCases/UpdateAccountUseCase.swift`
-- Validate name, block currency change if transactions exist
-- Note: accept `hasTransactions: Bool` parameter until Transactions feature exists
+**FinanceData (fully implemented):**
+- `AccountEntity` with SwiftData @Model, CloudKit-compatible
+- `AccountEntity+Mapping` (toDomain, update, from)
+- `AccountRepository` (fetch, save, delete, updateBalance, fetchGroupedByType, fetchTotalBalance, updateSortOrders)
+- `ExchangeRateEntity` + `ExchangeRateRepository`
+- `ModelContainerSetup` with Account + ExchangeRate entities
 
-### 2.4 Implement `DeleteAccountUseCase` [M]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/UseCases/DeleteAccountUseCase.swift`
-- Block delete if has transactions -> suggest archive
-- Soft delete via `deletedAt`
+**FinanceUI (fully implemented):**
+- `AccountTypeBadge` — type badge with icon + label
+- `BalanceText` — formatted amount with currency
+- `CurrencyPicker` — searchable currency list
+- `IconPicker` — SF Symbol grid picker
+- `ColorPickerGrid` — hex color grid picker
 
-### 2.5 Implement `GetAccountsUseCase` [M]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/UseCases/GetAccountsUseCase.swift`
-- Define `AccountFilter` (includeArchived, includeHidden, types)
-- Methods: execute(filter), executeGrouped(filter), executeTotalBalance(in:)
+**iOS (fully implemented):**
+- `AccountListView` — grouped list with swipe actions, drag-to-reorder
+- `AccountListViewModel` — MVVM with all use cases
+- `AccountEditView` — create/edit form
+- `AccountEditViewModel` — form state management
+- `AccountDetailView` — balance card, income/expense summary
+- `AccountDetailViewModel` — account detail + balance adjust
+- `BalanceAdjustSheet` — balance adjustment UI
 
-### 2.6 Implement `ReorderAccountsUseCase` [S]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/UseCases/ReorderAccountsUseCase.swift`
+**macOS (fully implemented):**
+- `MacAccountsView` — sidebar section with grouped accounts
+- `MacAccountsSidebarSection` — sidebar display component
+- `MacAccountDetailView` — detail pane
+- `MacAccountEditView` — edit form in sheet
+- `MacAccountContextMenu` — right-click menu
 
-### 2.7 Implement `ExchangeRateUseCase` [L]
-**New**: `Packages/FinanceCore/Sources/FinanceCore/UseCases/ExchangeRateUseCase.swift`
-- convert(amount, from, to), fetchLatestRates, 24h cache, offline fallback
-- Define `ExchangeRateServiceProtocol` for network fetcher
+### Bugs Found (Code Review)
 
-### 2.8 Clean up `AccountUseCaseProtocol` [S]
-**Modify**: `Packages/FinanceCore/Sources/FinanceCore/UseCases/AccountUseCases.swift`
-- Remove facade protocol in favor of individual use case protocols
-
----
-
-## Phase 3: Data Layer (data-architect)
-
-### 3.1 Enhance `AccountEntity` [M]
-**Modify**: `Packages/FinanceData/Sources/FinanceData/Entities/AccountEntity.swift`
-- Add: balance, sortOrder, isHidden, note, eWalletProvider, deletedAt
-- Add indexes: (type), (currency), (type, sortOrder), (deletedAt)
-
-### 3.2 Add domain mapping functions [M]
-**New**: `Packages/FinanceData/Sources/FinanceData/Entities/AccountEntity+Mapping.swift`
-- `toDomain() -> Account`, `static from(domain:) -> AccountEntity`, `update(from:)`
-
-### 3.3 Add `ExchangeRateEntity` [S]
-**New**: `Packages/FinanceData/Sources/FinanceData/Entities/ExchangeRateEntity.swift`
-- @Model with mapping functions
-
-### 3.4 Implement `AccountRepositoryImpl` [L]
-**Modify**: `Packages/FinanceData/Sources/FinanceData/Repositories/AccountRepository.swift`
-- Conform to `AccountRepositoryProtocol`, use `@ModelActor`
-- Implement all methods with `#Predicate`, `FetchDescriptor`
-- Exclude soft-deleted records in all queries
-
-### 3.5 Implement `ExchangeRateRepositoryImpl` [M]
-**New**: `Packages/FinanceData/Sources/FinanceData/Repositories/ExchangeRateRepository.swift`
-
-### 3.6 Update `ModelContainerSetup` [S]
-**Modify**: `Packages/FinanceData/Sources/FinanceData/DataStack/ModelContainerSetup.swift`
-- Register `ExchangeRateEntity` in schema
-
-### 3.7 Implement `ExchangeRateServiceImpl` [M]
-**New**: `Packages/FinanceData/Sources/FinanceData/Services/ExchangeRateService.swift`
-- URLSession + async/await, parse JSON, handle errors
+| # | Severity | Location | Issue |
+|---|----------|----------|-------|
+| 1 | **CRITICAL** | `AccountRepository.swift:77` | `fetchTotalBalance` ignores non-primary-currency accounts — only sums same-currency accounts instead of converting all |
+| 2 | **CRITICAL** | `AccountListViewModel.swift:103`, `AccountDetailViewModel.swift:85`, `MacAccountsView.swift:166` | `hasTransactions: false` hardcoded in all delete calls — bypasses transaction guard |
+| 3 | **CRITICAL** | `MacAccountsView.swift:24-28` | Repositories as computed `var` properties — creates new actor per access |
+| 4 | **CRITICAL** | `ExchangeRateUseCase.swift:118` | `return 1.0` uses Double literal where Decimal is required |
+| 5 | **CRITICAL** | `AccountEditViewModel.swift:149` | Unparseable balance silently becomes 0 with no user feedback |
+| 6 | **WARNING** | `AccountListViewModel.swift:169` | Reorder within section overwrites global sortOrders causing cross-section collisions |
+| 7 | **WARNING** | `MacAccountEditView.swift:165` | Currency picker not disabled in edit mode on macOS (iOS correctly disables it) |
+| 8 | **WARNING** | `ExchangeRateRepository.swift:46` | Upsert keyed on `id` — fresh service rates always insert duplicates |
+| 9 | **WARNING** | `CurrencyFormatter.swift:63` | Decimal→Double conversion in `formatCompact` loses precision for large VND amounts |
+| 10 | **WARNING** | `AccountListViewModel.swift:86` | `executeTotalBalance` vs `executeGrouped` have inconsistent hidden-account semantics |
+| 11 | **WARNING** | `BalanceAdjustSheet.swift:64` | Delta shown as raw `Decimal.description` instead of formatted currency |
+| 12 | **WARNING** | `AccountDetailViewModel.swift:73` | `adjustBalance` silently swallows all errors |
+| 13 | **WARNING** | `MockAccountRepository.swift:12` | Mock `fetchAll` doesn't filter soft-deleted accounts (diverges from production) |
+| 14 | **WARNING** | `AccountListView.swift:191` | Dead code: `makeListViewModel()` factory never called |
+| 15 | **WARNING** | `AccountListViewModel.swift:191` | `sectionBalance(for:)` sums mixed currencies without conversion |
+| 16 | **SUGGESTION** | `IconPicker.swift:112` | `.searchable` gated to iOS only — macOS users can't search icons |
+| 17 | **SUGGESTION** | `AccountTypeBadge.swift:39` | Accessibility label appends " account" unconditionally |
+| 18 | **SUGGESTION** | `ExchangeRateUseCaseTests.swift:286` | MockExchangeRateService extension methods not async — Swift 6 strict-concurrency violation |
+| 19 | **NOTE** | `CurrencyCode.swift:30,34` | JPY and CNY share `"¥"` symbol — ambiguous in pair formatting |
+| 20 | **NOTE** | `AccountError.swift:57` | `ExchangeRateError.cacheExpired` unreachable dead code |
 
 ---
 
-## Phase 4: UI Components (ui-designer)
+## Detailed Tasks
 
-### 4.1 `AccountIcon` [S]
-**New**: `Packages/FinanceUI/Sources/FinanceUI/Components/AccountIcon.swift`
-- SF Symbol in colored circle, default icons per AccountType
-- Sizes: small/medium/large
+### Phase A: Critical Bug Fixes (shared-core + data-architect)
 
-### 4.2 `AccountTypeBadge` [S]
-**New**: `Packages/FinanceUI/Sources/FinanceUI/Components/AccountTypeBadge.swift`
-- Compact capsule label with icon + type name
+#### T1: Fix `fetchTotalBalance` to convert across currencies
+- **Agent:** shared-core + data-architect
+- **Complexity:** Medium
+- **Files:**
+  - `Packages/FinanceCore/Sources/FinanceCore/UseCases/GetAccountsUseCase.swift` — `executeTotalBalance` should accept `ExchangeRateUseCaseProtocol`, fetch ALL non-deleted non-archived non-hidden accounts, convert each balance to target currency, then sum
+  - `Packages/FinanceCore/Sources/FinanceCore/Protocols/AccountRepositoryProtocol.swift` — keep `fetchTotalBalance` but clarify it's same-currency-only, or remove it entirely in favor of use-case-level computation
+  - `Packages/FinanceData/Sources/FinanceData/Repositories/AccountRepository.swift` — update to match
+  - `Packages/FinanceCore/Tests/` — update tests, fix MockAccountRepository.fetchTotalBalance
 
-### 4.3 `BalanceText` [S]
-**New**: `Packages/FinanceUI/Sources/FinanceUI/Components/BalanceText.swift`
-- Enhanced amount display with CurrencyCode, multiple sizes, compact mode
+#### T2: Fix `sectionBalance(for:)` to handle mixed currencies
+- **Agent:** ios-engineer
+- **Complexity:** Medium
+- **Files:**
+  - `FinanceApp-iOS/Sources/Features/Accounts/AccountListViewModel.swift` — inject `ExchangeRateUseCaseProtocol`, convert each account balance to primary currency before summing per section
 
-### 4.4 `AccountCard` [M]
-**New**: `Packages/FinanceUI/Sources/FinanceUI/Components/AccountCard.swift`
-- Combines AccountIcon + name + BalanceText + AccountTypeBadge
-- Compact (list row) and expanded (detail header) layouts
+#### T3: Fix `hasTransactions` hardcoding in delete calls
+- **Agent:** ios-engineer + macos-engineer
+- **Complexity:** Low
+- **Files:**
+  - `FinanceApp-iOS/Sources/Features/Accounts/AccountListViewModel.swift:103` — query `TransactionRepositoryProtocol.count(filter:)` for account before delete
+  - `FinanceApp-iOS/Sources/Features/Accounts/AccountDetailViewModel.swift:85` — same
+  - `FinanceApp-macOS/Sources/Features/Accounts/MacAccountsView.swift:166` — same
+- **Dependency:** Transaction repository must exist (already implemented in transactions-f1)
 
-### 4.5 `CurrencyPicker` [M]
-**New**: `Packages/FinanceUI/Sources/FinanceUI/Components/CurrencyPicker.swift`
-- Searchable list: flag + code + name + symbol
-- `@Binding var selected: CurrencyCode`
+#### T4: Fix MacAccountsView computed-property repository creation
+- **Agent:** macos-engineer
+- **Complexity:** Medium
+- **Files:**
+  - `FinanceApp-macOS/Sources/Features/Accounts/MacAccountsView.swift` — extract to a proper ViewModel (`MacAccountsViewModel`) with stable repository references injected via init
 
-### 4.6 Update `AmountText` [S]
-**Modify**: `Packages/FinanceUI/Sources/FinanceUI/Components/AmountText.swift`
-- Change `currencyCode: String` to `currencyCode: CurrencyCode`
+#### T5: Fix ExchangeRateUseCase Double literal
+- **Agent:** shared-core
+- **Complexity:** Trivial
+- **Files:**
+  - `Packages/FinanceCore/Sources/FinanceCore/UseCases/ExchangeRateUseCase.swift:118` — change `return 1.0` to `return Decimal(1)`
+
+#### T6: Fix ExchangeRateRepository upsert predicate
+- **Agent:** data-architect
+- **Complexity:** Low
+- **Files:**
+  - `Packages/FinanceData/Sources/FinanceData/Repositories/ExchangeRateRepository.swift:44-61` — remove `entity.id == rate.id` from predicate, match on `(baseCurrency, targetCurrency)` only, add date-same-day logic
+
+### Phase B: Warning-Level Fixes (mixed agents)
+
+#### T7: Fix CurrencyFormatter.formatCompact Decimal→Double conversion
+- **Agent:** shared-core
+- **Complexity:** Medium
+- **Files:**
+  - `Packages/FinanceCore/Sources/FinanceCore/Utilities/CurrencyFormatter.swift:63-85` — rewrite compact format to stay in Decimal arithmetic
+
+#### T8: Fix AccountEditViewModel unparseable balance (silent 0)
+- **Agent:** ios-engineer
+- **Complexity:** Low
+- **Files:**
+  - `FinanceApp-iOS/Sources/Features/Accounts/AccountEditViewModel.swift` — add validation error when `Decimal(string:)` returns nil, surface in UI
+
+#### T9: Fix reorder sortOrder collision across sections
+- **Agent:** shared-core
+- **Complexity:** Medium
+- **Files:**
+  - `Packages/FinanceCore/Sources/FinanceCore/UseCases/ReorderAccountsUseCase.swift` — accept `(type: AccountType, orderedIDs: [UUID])` and offset sortOrder by type to avoid collision, or use per-type sort namespace
+  - `FinanceApp-iOS/Sources/Features/Accounts/AccountListViewModel.swift:169` — update call site
+
+#### T10: Fix MacAccountEditView currency picker not disabled in edit mode
+- **Agent:** macos-engineer
+- **Complexity:** Trivial
+- **Files:**
+  - `FinanceApp-macOS/Sources/Features/Accounts/MacAccountEditView.swift:165-172` — add `.disabled(isEditing)` guard + explanatory text
+
+#### T11: Fix BalanceAdjustSheet unformatted delta display
+- **Agent:** ios-engineer
+- **Complexity:** Trivial
+- **Files:**
+  - `FinanceApp-iOS/Sources/Features/Accounts/BalanceAdjustSheet.swift:64` — use `CurrencyFormatter`
+
+#### T12: Fix AccountDetailViewModel silent error swallowing
+- **Agent:** ios-engineer
+- **Complexity:** Low
+- **Files:**
+  - `FinanceApp-iOS/Sources/Features/Accounts/AccountDetailViewModel.swift:73` — add `@Published var errorMessage: String?`, surface errors
+
+#### T13: Fix MockAccountRepository.fetchAll to filter deleted accounts
+- **Agent:** test-engineer
+- **Complexity:** Trivial
+- **Files:**
+  - `Packages/FinanceCore/Tests/FinanceCoreTests/Mocks/MockAccountRepository.swift:12-14` — add `.filter { $0.deletedAt == nil }`
+
+#### T14: Remove dead code `makeListViewModel()`
+- **Agent:** ios-engineer
+- **Complexity:** Trivial
+- **Files:**
+  - `FinanceApp-iOS/Sources/Features/Accounts/AccountListView.swift:191-205` — delete method
+
+#### T15: Fix IconPicker .searchable gated to iOS only
+- **Agent:** ui-designer
+- **Complexity:** Trivial
+- **Files:**
+  - `Packages/FinanceUI/Sources/FinanceUI/Components/IconPicker.swift:110-113` — move `.searchable` outside `#if os(iOS)`
+
+#### T16: Fix ExchangeRateUseCaseTests strict-concurrency violation
+- **Agent:** test-engineer
+- **Complexity:** Low
+- **Files:**
+  - `Packages/FinanceCore/Tests/FinanceCoreTests/ExchangeRateUseCaseTests.swift:286-294` — make extension methods `async` or move into actor body
+
+### Phase C: Test Updates (test-engineer)
+
+#### T17: Update tests to match all fixes
+- **Agent:** test-engineer
+- **Complexity:** Medium
+- **Files:**
+  - Update `GetAccountsUseCaseTests` — test multi-currency total balance
+  - Update `ReorderAccountsUseCaseTests` — test per-type offset
+  - Update `CurrencyFormatterTests` — test large VND amounts in compact format
+  - Add `ExchangeRateRepositoryTests` — test upsert deduplication
+  - Verify all 72+ existing tests still pass after fixes
+- **Dependency:** All Phase A + B fixes complete
+
+### Phase D: Run Full Test Suite + Final Verification
+
+#### T18: Build verification and test run
+- **Agent:** test-engineer
+- **Complexity:** Low
+- **Steps:**
+  1. `swift test --package-path Packages/FinanceCore`
+  2. `swift test --package-path Packages/FinanceData`
+  3. `xcodebuild build` for iOS and macOS targets
+  4. Verify all 289+ tests pass (FinanceCore + FinanceData)
 
 ---
 
-## Phase 5: iOS Views & ViewModels (ios-engineer)
-
-### 5.1 `AccountListViewModel` [L]
-**New**: `FinanceApp-iOS/Sources/Features/Accounts/AccountListViewModel.swift`
-- @Observable, state: groupedAccounts, totalBalance, isLoading, error, filter
-- Actions: loadAccounts, deleteAccount, archiveAccount, toggleHidden, reorder
-
-### 5.2 `AccountListView` [L]
-**New**: `FinanceApp-iOS/Sources/Features/Accounts/AccountListView.swift` (replaces placeholder)
-- Grouped List by AccountType, section subtotals, total balance
-- Swipe actions (edit/archive/delete), drag-to-reorder, empty state
-
-### 5.3 `AccountEditViewModel` [M]
-**New**: `FinanceApp-iOS/Sources/Features/Accounts/AccountEditViewModel.swift`
-
-### 5.4 `AccountEditView` [M]
-**New**: `FinanceApp-iOS/Sources/Features/Accounts/AccountEditView.swift`
-- Form: name, type, currency, initial balance, icon, color, e-wallet provider, notes
-
-### 5.5 `AccountDetailViewModel` [M]
-**New**: `FinanceApp-iOS/Sources/Features/Accounts/AccountDetailViewModel.swift`
-
-### 5.6 `AccountDetailView` [M]
-**New**: `FinanceApp-iOS/Sources/Features/Accounts/AccountDetailView.swift`
-- Balance card, income/expense summary, transaction list placeholder
-
-### 5.7 `BalanceAdjustSheet` [S]
-**New**: `FinanceApp-iOS/Sources/Features/Accounts/BalanceAdjustSheet.swift`
-
-### 5.8 Wire up navigation [S]
-**Modify**: `FinanceApp-iOS/Sources/App/ContentView.swift`
-- Replace placeholder, set up DI composition root
-- Delete `AccountsPlaceholderView.swift`
-
----
-
-## Phase 6: macOS Views (macos-engineer)
-
-### 6.1 `MacAccountsSidebarSection` [M]
-**New**: `FinanceApp-macOS/Sources/Features/Accounts/MacAccountsSidebarSection.swift`
-- Disclosure groups per AccountType, icon + name + compact balance
-
-### 6.2 `MacAccountDetailView` [M]
-**New**: `FinanceApp-macOS/Sources/Features/Accounts/MacAccountDetailView.swift`
-- Dense desktop layout, balance card, summary, transaction table placeholder
-
-### 6.3 `MacAccountEditView` [M]
-**New**: `FinanceApp-macOS/Sources/Features/Accounts/MacAccountEditView.swift`
-- macOS form layout, reuse AccountEditViewModel
-
-### 6.4 Context menu & shortcuts [S]
-**New**: `FinanceApp-macOS/Sources/Features/Accounts/MacAccountContextMenu.swift`
-- Right-click: Edit, Archive, Hide, View Transactions
-- Keyboard: Cmd+N, Delete, Cmd+E
-
-### 6.5 Wire up macOS navigation [S]
-**Modify**: `FinanceApp-macOS/Sources/App/MacContentView.swift`
-- Replace placeholder, integrate sidebar section
-
----
-
-## Phase 7: Tests (test-engineer)
-
-### 7.1 `CreateAccountUseCaseTests` [M]
-- Valid creation, empty name, duplicate name, free tier limit (5), sortOrder
-- Create `MockAccountRepository`
-
-### 7.2 `DeleteAccountUseCaseTests` [M]
-- Delete empty account, block with transactions, archive fallback
-
-### 7.3 Enhance `CurrencyFormatterTests` [M]
-- VND format, USD format, compact ("1.5tr", "150k"), formatPair, edge cases
-
-### 7.4 `ExchangeRateUseCaseTests` [M]
-- Conversion accuracy, offline fallback, cache expiry
-
-### 7.5 `AccountBalanceTests` [M]
-- Delta updates, total balance sum, mixed currency totals
-
-### 7.6 `AccountRepositoryImplTests` [M]
-- In-memory ModelContainer, CRUD, grouped fetch, soft delete exclusion
-
-### 7.7 Update existing `AccountTests` [S]
-- Update for CurrencyCode, new fields, EWalletProvider
-
----
-
-## Execution Schedule
+## Implementation Order & Dependencies
 
 ```
-         shared-core    data-architect    ui-designer    ios-engineer    macos-engineer    test-engineer
-Week 1   Phase 1 + 2.1  3.1, 3.2, 3.3    4.1-4.3,       -               -                 -
-                                          4.5, 4.6
-Week 2   2.2-2.8        3.4-3.7           4.4            -               -                 7.3, 7.7
-Week 3   -              -                 -              5.1-5.8         6.1-6.5           7.1, 7.2, 7.4-7.6
+Phase A (Critical Fixes):
+  T5 (trivial)  ────────────────────────┐
+  T6 (ExchangeRate upsert) ─────────────┤
+  T1 (fetchTotalBalance) ← depends T5,T6│──► Phase C: T17
+  T2 (sectionBalance) ← depends T1      │
+  T3 (hasTransactions) ─────────────────┤
+  T4 (MacAccountsView ViewModel) ───────┘
+
+Phase B (Warning Fixes) — can run parallel to Phase A:
+  T7 (formatCompact) ──────────┐
+  T8 (balance validation) ─────┤
+  T9 (reorder collision) ──────┤
+  T10 (macOS currency guard) ──┤──► Phase C: T17
+  T11 (delta display) ─────────┤
+  T12 (error swallowing) ──────┤
+  T13 (mock fetchAll) ─────────┤
+  T14 (dead code) ─────────────┤
+  T15 (searchable macOS) ──────┤
+  T16 (test concurrency) ──────┘
+
+Phase C (Tests): T17 ← depends on all A+B
+
+Phase D (Verification): T18 ← depends on T17
 ```
 
-**Parallel tracks**: Phases 1-4 have independent agents working simultaneously. Phases 5+6 run in parallel (iOS/macOS). Tests run as implementations land.
+## Agent Assignment Summary
 
----
+| Agent | Tasks |
+|-------|-------|
+| **shared-core** | T1, T5, T7, T9 |
+| **data-architect** | T1, T6 |
+| **ios-engineer** | T2, T3, T8, T11, T12, T14 |
+| **macos-engineer** | T3, T4, T10 |
+| **ui-designer** | T15 |
+| **test-engineer** | T13, T16, T17, T18 |
 
 ## Risks
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| SwiftData `Decimal` precision loss for large VND | Data corruption | Test with 1B+ VND early; fallback to `Int64` storage |
-| `@ModelActor` strict concurrency complexity | Build errors | Follow SwiftData actor isolation patterns carefully |
-| Transaction dependency (several use cases need it) | Blocked logic | Define minimal `hasTransactions(forAccountID:)` protocol; return `false` initially |
-| Exchange rate API reliability | Feature degradation | Robust caching, offline fallback, bundled static fallback rates |
-| AccountType rename (`bankAccount` -> `bank`) | Data migration | Pre-launch = clean break OK; add mapping in entity layer |
-| Free tier limit race condition (multi-device) | Over-limit accounts | Soft warning on sync reconciliation rather than hard block |
+1. **T1 (multi-currency total balance)** is the most complex fix — needs exchange rate integration into the use case layer. If exchange rates are unavailable (no API configured yet), must handle gracefully with fallback.
+2. **T3 (hasTransactions check)** depends on `TransactionRepositoryProtocol` being available in the iOS/macOS targets. Since transactions feature was just implemented, this should work but needs verification.
+3. **T4 (MacAccountsView → ViewModel)** is a significant refactor of the macOS accounts view architecture. Must preserve all existing functionality.
+4. **T9 (reorder collision)** changes the `ReorderAccountsUseCase` protocol signature, which affects iOS ViewModel and tests.
 
----
+## Test Plan
 
-## Verification
-
-1. **Unit tests**: `swift test --package-path Packages/FinanceCore && swift test --package-path Packages/FinanceData`
-2. **Build**: `xcodebuild -scheme FinanceApp-iOS -destination 'platform=iOS Simulator,name=iPhone 16'` and macOS equivalent
-3. **Manual testing**:
-   - Create accounts of each type (cash, bank, credit card, e-wallet, savings)
-   - Verify VND formatting (1.000.000 ₫)
-   - Test free tier limit (create 6th account -> error)
-   - Test archive flow (account with transactions can't delete)
-   - Test multi-currency total balance
-   - Verify macOS sidebar, context menus, keyboard shortcuts
-4. **Lint**: `swiftlint lint --strict`
+| Test Area | Cases |
+|-----------|-------|
+| Multi-currency total balance | VND-only sum, mixed VND+USD sum with conversion, no exchange rate fallback |
+| Section balance | Same-currency section, mixed-currency section |
+| Delete with transactions | Account with transactions → error, account without → success |
+| Reorder within type | Reorder cash accounts doesn't affect bank accounts' sortOrder |
+| ExchangeRate upsert | Save same pair twice → updates not duplicates |
+| CurrencyFormatter compact | Large VND (999 billion) stays accurate |
+| Balance validation | Empty string → error, "abc" → error, "0" → valid |
+| MockAccountRepository | fetchAll excludes soft-deleted accounts |

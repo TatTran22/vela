@@ -13,6 +13,7 @@
 		223977BABCFB6C5F9D7310A1 /* TransactionsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B14815600EC742141DD3B38 /* TransactionsPlaceholderView.swift */; };
 		25FBC43DA4004FBA5C4D161B /* CategoriesPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B095CAA86FC559253DF8A9D /* CategoriesPlaceholderView.swift */; };
 		30E2EDA421D9E0C665D76FEB /* MacReportsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15626604C2B11326F116D02C /* MacReportsPlaceholderView.swift */; };
+		2F1FCA777D850A989D803A28 /* MacAccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5992C69880975796E79FF24 /* MacAccountsViewModel.swift */; };
 		317A50DEACEF1E08D4379FF0 /* MacAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B31DEA2BA8DC5DF0741FC1 /* MacAccountsView.swift */; };
 		329A92C3B00305D3FFEB3953 /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F49EFA63B3B089BDEDE73D1 /* AccountDetailView.swift */; };
 		481AF0F8385697B65F55FE64 /* FinanceCore in Frameworks */ = {isa = PBXBuildFile; productRef = EE36DAE878C57D2CD10062D9 /* FinanceCore */; };
@@ -58,6 +59,7 @@
 		0F49EFA63B3B089BDEDE73D1 /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
 		15626604C2B11326F116D02C /* MacReportsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacReportsPlaceholderView.swift; sourceTree = "<group>"; };
 		19B31DEA2BA8DC5DF0741FC1 /* MacAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAccountsView.swift; sourceTree = "<group>"; };
+		C5992C69880975796E79FF24 /* MacAccountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAccountsViewModel.swift; sourceTree = "<group>"; };
 		1E5BDD6BB8094FD1FFE411C6 /* SettingsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPlaceholderView.swift; sourceTree = "<group>"; };
 		2452A153F26B0703D4E03DD3 /* FinanceData */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FinanceData; path = Packages/FinanceData; sourceTree = SOURCE_ROOT; };
 		271D1C9823123D81D9201BC4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				C7455C5AACD8227716B18F49 /* MacAccountEditView.swift */,
 				FC3DCF18CFE76F5C8E7D4200 /* MacAccountsSidebarSection.swift */,
 				19B31DEA2BA8DC5DF0741FC1 /* MacAccountsView.swift */,
+				C5992C69880975796E79FF24 /* MacAccountsViewModel.swift */,
 			);
 			path = Accounts;
 			sourceTree = "<group>";
@@ -504,6 +507,7 @@
 				D399AC612D97E90F7B911CDB /* MacAccountEditView.swift in Sources */,
 				77AE23CB0ACC5439F5A410A2 /* MacAccountsSidebarSection.swift in Sources */,
 				317A50DEACEF1E08D4379FF0 /* MacAccountsView.swift in Sources */,
+				2F1FCA777D850A989D803A28 /* MacAccountsViewModel.swift in Sources */,
 				0903D19DCE3FE05AEF5C3BF3 /* MacCategoriesPlaceholderView.swift in Sources */,
 				7F389287275AFC5017B1AC40 /* MacContentView.swift in Sources */,
 				A0CF74B4632CBA4008F51FA4 /* MacDashboardPlaceholderView.swift in Sources */,

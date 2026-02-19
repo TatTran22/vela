@@ -57,32 +57,39 @@ public struct CurrencyFormatter: Sendable {
     /// - VND: "1.5tr" (trieu/million), "1.5 tỷ" (billion), "150k"
     /// - Other currencies: "1.5M", "1.5B", "150K"
     ///
+    /// All threshold comparisons and divisions are performed in Decimal to preserve
+    /// precision for large values such as VND amounts. The result is only converted
+    /// to Double at the very end for NumberFormatter.
+    ///
     /// - Parameter amount: The monetary amount to format.
     /// - Returns: A compact formatted string.
     public func formatCompact(_ amount: Decimal) -> String {
-        let doubleValue = (amount as NSDecimalNumber).doubleValue
-        let absAmount = Swift.abs(doubleValue)
-        let sign = doubleValue < 0 ? "-" : ""
+        let absAmount = amount < 0 ? -amount : amount
+        let sign = amount < 0 ? "-" : ""
 
-        let (value, suffix) = if currencyCode == .VND {
+        let billion = Decimal(1_000_000_000)
+        let million = Decimal(1_000_000)
+        let thousand = Decimal(1_000)
+
+        let (scaledValue, suffix): (Decimal, String) = if currencyCode == .VND {
             // Vietnamese: tỷ (billion), tr (trieu/million), k (nghìn/thousand)
-            if absAmount >= 1_000_000_000 {
-                (absAmount / 1_000_000_000, " tỷ")
-            } else if absAmount >= 1_000_000 {
-                (absAmount / 1_000_000, "tr")
-            } else if absAmount >= 1_000 {
-                (absAmount / 1_000, "k")
+            if absAmount >= billion {
+                (absAmount / billion, " tỷ")
+            } else if absAmount >= million {
+                (absAmount / million, "tr")
+            } else if absAmount >= thousand {
+                (absAmount / thousand, "k")
             } else {
                 (absAmount, "")
             }
         } else {
             // International: B (billion), M (million), K (thousand)
-            if absAmount >= 1_000_000_000 {
-                (absAmount / 1_000_000_000, "B")
-            } else if absAmount >= 1_000_000 {
-                (absAmount / 1_000_000, "M")
-            } else if absAmount >= 1_000 {
-                (absAmount / 1_000, "K")
+            if absAmount >= billion {
+                (absAmount / billion, "B")
+            } else if absAmount >= million {
+                (absAmount / million, "M")
+            } else if absAmount >= thousand {
+                (absAmount / thousand, "K")
             } else {
                 (absAmount, "")
             }
@@ -94,7 +101,8 @@ public struct CurrencyFormatter: Sendable {
         formatter.maximumFractionDigits = suffix.isEmpty ? currencyCode.decimalPlaces : 1
         formatter.minimumFractionDigits = 0
 
-        let formattedValue = formatter.string(from: NSNumber(value: value)) ?? "\(value)"
+        // Only convert to Double here, at the final formatting step
+        let formattedValue = formatter.string(from: scaledValue as NSDecimalNumber) ?? "\(scaledValue)"
         return "\(sign)\(formattedValue)\(suffix) \(currencyCode.symbol)"
     }
 

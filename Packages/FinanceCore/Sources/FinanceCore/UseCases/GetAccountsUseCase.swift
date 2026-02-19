@@ -75,14 +75,28 @@ public protocol GetAccountsUseCaseProtocol: Sendable {
 ///
 /// This use case provides flexible account querying with filtering,
 /// grouping, and multi-currency balance aggregation.
+///
+/// When an `exchangeRateUseCase` is supplied, `executeTotalBalance(in:)` fetches
+/// all active accounts and converts each balance individually using live exchange
+/// rates. If no `exchangeRateUseCase` is provided, the method falls back to
+/// `repository.fetchTotalBalance(in:)`, which only sums same-currency accounts.
 public struct GetAccountsUseCase: GetAccountsUseCaseProtocol {
     private let repository: AccountRepositoryProtocol
+    private let exchangeRateUseCase: ExchangeRateUseCaseProtocol?
 
     /// Creates a new account retrieval use case.
     ///
-    /// - Parameter repository: The repository for account persistence.
-    public init(repository: AccountRepositoryProtocol) {
+    /// - Parameters:
+    ///   - repository: The repository for account persistence.
+    ///   - exchangeRateUseCase: An optional use case for currency conversion.
+    ///                          When provided, `executeTotalBalance(in:)` performs
+    ///                          a proper multi-currency aggregation. Defaults to nil.
+    public init(
+        repository: AccountRepositoryProtocol,
+        exchangeRateUseCase: ExchangeRateUseCaseProtocol? = nil
+    ) {
         self.repository = repository
+        self.exchangeRateUseCase = exchangeRateUseCase
     }
 
     public func execute(filter: AccountFilter) async throws -> [Account] {
@@ -129,7 +143,32 @@ public struct GetAccountsUseCase: GetAccountsUseCaseProtocol {
     }
 
     public func executeTotalBalance(in currency: CurrencyCode) async throws -> Decimal {
-        // Delegate to repository which handles currency conversion
-        return try await repository.fetchTotalBalance(in: currency)
+        guard let exchangeRateUseCase else {
+            // Fall back to repository-level aggregation (same-currency sum only)
+            return try await repository.fetchTotalBalance(in: currency)
+        }
+
+        // Fetch all active accounts (non-deleted, non-archived, non-hidden)
+        let activeAccounts = try await execute(filter: AccountFilter())
+
+        var total = Decimal(0)
+        for account in activeAccounts {
+            if account.currency == currency {
+                // Same currency — add directly, no conversion needed
+                total += account.balance
+            } else {
+                // Different currency — convert using exchange rates; skip if unavailable
+                if let converted = try? await exchangeRateUseCase.convert(
+                    amount: account.balance,
+                    from: account.currency,
+                    to: currency
+                ) {
+                    total += converted
+                }
+                // If conversion fails (rate not found / offline), balance contributes 0
+            }
+        }
+
+        return total
     }
 }

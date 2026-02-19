@@ -22,11 +22,23 @@ final class AccountDetailViewModel {
     /// Whether to show the delete confirmation dialog
     var showingDeleteConfirmation = false
 
+    /// Error message from the most recent failed operation
+    var errorMessage: String?
+
+    /// Whether to show the error alert
+    var showError = false
+
     // MARK: - Dependencies
 
     private let accountRepository: AccountRepositoryProtocol
     private let getAccountsUseCase: GetAccountsUseCaseProtocol
     private let deleteAccountUseCase: DeleteAccountUseCaseProtocol
+
+    /// Optional closure to check whether an account has associated transactions.
+    ///
+    /// Inject this at the call site to avoid a hard dependency on TransactionRepository.
+    /// Defaults to `false` (no transactions) when `nil`.
+    var checkHasTransactions: ((UUID) async -> Bool)?
 
     // MARK: - Initialization
 
@@ -75,13 +87,15 @@ final class AccountDetailViewModel {
             try await accountRepository.updateBalance(account.id, delta: delta)
             await refreshAccount()
         } catch {
-            // Silent failure for balance adjustment
+            errorMessage = error.localizedDescription
+            showError = true
         }
     }
 
     /// Deletes the account
     func deleteAccount() async throws {
-        // For now, assume no transactions
-        try await deleteAccountUseCase.execute(accountID: account.id, hasTransactions: false)
+        // TODO: Remove closure once TransactionRepository is injected directly.
+        let hasTransactions = await checkHasTransactions?(account.id) ?? false
+        try await deleteAccountUseCase.execute(accountID: account.id, hasTransactions: hasTransactions)
     }
 }

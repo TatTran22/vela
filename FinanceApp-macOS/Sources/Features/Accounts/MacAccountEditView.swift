@@ -168,6 +168,12 @@ struct MacAccountEditView: View {
                         Text("\(c.flag) \(c.rawValue) - \(c.name)").tag(c)
                     }
                 }
+                .disabled(isEditing)
+                if isEditing {
+                    Text("Currency cannot be changed for existing accounts.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
 
             // MARK: - Initial Balance
