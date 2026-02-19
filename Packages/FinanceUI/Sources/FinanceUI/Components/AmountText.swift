@@ -4,12 +4,12 @@ import SwiftUI
 /// Displays a formatted monetary amount with color coding
 public struct AmountText: View {
     private let amount: Decimal
-    private let currencyCode: String
+    private let currencyCode: CurrencyCode
     private let type: TransactionType?
 
     public init(
         amount: Decimal,
-        currencyCode: String = "VND",
+        currencyCode: CurrencyCode = .VND,
         type: TransactionType? = nil
     ) {
         self.amount = amount

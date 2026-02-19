@@ -1,8 +1,10 @@
+import SwiftData
 import SwiftUI
 
 /// Root view with sidebar navigation for macOS
 struct MacContentView: View {
     @State private var selectedSection: MacSection? = .dashboard
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         NavigationSplitView {
@@ -18,7 +20,7 @@ struct MacContentView: View {
             case .transactions:
                 MacTransactionsPlaceholderView()
             case .accounts:
-                MacAccountsPlaceholderView()
+                MacAccountsView(modelContainer: modelContext.container)
             case .reports:
                 MacReportsPlaceholderView()
             case .settings:
