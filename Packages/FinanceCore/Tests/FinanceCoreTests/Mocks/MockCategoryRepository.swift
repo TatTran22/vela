@@ -12,6 +12,9 @@ typealias FinanceCategory = FinanceCore.Category
 actor MockCategoryRepository: CategoryRepositoryProtocol {
     private var categories: [UUID: FinanceCategory] = [:]
 
+    /// Tracks which category IDs have associated transactions.
+    var categoriesWithTransactions: Set<UUID> = []
+
     func fetchAll(type: TransactionType?) async throws -> [FinanceCategory] {
         let all = Array(categories.values)
         guard let type else { return all }
@@ -40,15 +43,35 @@ actor MockCategoryRepository: CategoryRepositoryProtocol {
         // No-op for testing
     }
 
+    func delete(_ id: UUID) async throws {
+        categories.removeValue(forKey: id)
+    }
+
+    func reorder(_ orderedIDs: [UUID], startingAt offset: Int) async throws {
+        for (index, id) in orderedIDs.enumerated() {
+            categories[id]?.sortOrder = offset + index
+        }
+    }
+
+    func hasTransactions(categoryID: UUID) async throws -> Bool {
+        categoriesWithTransactions.contains(categoryID)
+    }
+
     // MARK: - Testing helpers
 
     /// Resets the repository to an empty state.
     func reset() {
         categories.removeAll()
+        categoriesWithTransactions.removeAll()
     }
 
     /// Seeds a single category for use in tests.
     func seed(_ category: FinanceCategory) {
         categories[category.id] = category
+    }
+
+    /// Marks a category as having associated transactions.
+    func markHasTransactions(_ categoryID: UUID) {
+        categoriesWithTransactions.insert(categoryID)
     }
 }
