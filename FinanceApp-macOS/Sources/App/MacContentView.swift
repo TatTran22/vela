@@ -22,6 +22,8 @@ struct MacContentView: View {
                 MacTransactionsView(modelContainer: modelContext.container)
             case .accounts:
                 MacAccountsView(modelContainer: modelContext.container)
+            case .categories:
+                MacCategoryManagementView(modelContainer: modelContext.container)
             case .reports:
                 MacReportsPlaceholderView()
             case .settings:
@@ -37,6 +39,7 @@ enum MacSection: String, CaseIterable, Identifiable {
     case dashboard
     case transactions
     case accounts
+    case categories
     case reports
     case settings
 
@@ -47,6 +50,7 @@ enum MacSection: String, CaseIterable, Identifiable {
         case .dashboard: return AppStrings.navDashboard
         case .transactions: return AppStrings.navTransactions
         case .accounts: return AppStrings.navAccounts
+        case .categories: return AppStrings.navCategories
         case .reports: return AppStrings.navReports
         case .settings: return AppStrings.navSettings
         }
@@ -57,6 +61,7 @@ enum MacSection: String, CaseIterable, Identifiable {
         case .dashboard: "house.fill"
         case .transactions: "list.bullet"
         case .accounts: "creditcard.fill"
+        case .categories: "folder.fill"
         case .reports: "chart.pie.fill"
         case .settings: "gearshape.fill"
         }

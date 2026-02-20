@@ -97,6 +97,27 @@ enum AppStrings {
     static var editNameExists: String { String(localized: "account.edit.nameExists") }
     static var editProvider: String { String(localized: "account.edit.provider") }
 
+    // MARK: - Categories
+
+    static var categoryListTitle: String { String(localized: "category.list.title") }
+    static var categoryNew: String { String(localized: "category.new") }
+    static var categoryEdit: String { String(localized: "category.edit") }
+    static var categoryDelete: String { String(localized: "category.delete") }
+    static var categoryArchive: String { String(localized: "category.archive") }
+    static var categoryAddSubcategory: String { String(localized: "category.addSubcategory") }
+    static var categoryEditName: String { String(localized: "category.edit.name") }
+    static var categoryEditType: String { String(localized: "category.edit.type") }
+    static var categoryEditParent: String { String(localized: "category.edit.parent") }
+    static var categoryEditIcon: String { String(localized: "category.edit.icon") }
+    static var categoryEditColor: String { String(localized: "category.edit.color") }
+    static var categoryEditPreview: String { String(localized: "category.edit.preview") }
+    static var categoryNoParent: String { String(localized: "category.noParent") }
+    static var categoryEmptyTitle: String { String(localized: "category.empty.title") }
+    static var categoryEmptySubtitle: String { String(localized: "category.empty.subtitle") }
+    static var categorySubcategories: String { String(localized: "category.subcategories") }
+    static var categoryExpense: String { String(localized: "category.type.expense") }
+    static var categoryIncome: String { String(localized: "category.type.income") }
+
     // MARK: - Common
 
     static var cancel: String { String(localized: "common.cancel") }
