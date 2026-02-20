@@ -1,7 +1,9 @@
 import SwiftUI
 
+// MARK: - Card Style
+
 extension View {
-    /// Applies a card-style background with rounded corners and shadow
+    /// Applies a card-style background with rounded corners and shadow.
     public func cardStyle() -> some View {
         self
             .padding(DesignTokens.Spacing.lg)
@@ -10,6 +12,111 @@ extension View {
             .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
     }
 }
+
+// MARK: - Typography Modifiers
+
+extension View {
+    /// Applies the hero amount typography style.
+    public func financeHeroAmount() -> some View {
+        self.font(DesignTokens.Typography.heroAmount)
+            .monospacedDigit()
+    }
+
+    /// Applies the heading typography style.
+    public func financeHeading() -> some View {
+        self.font(DesignTokens.Typography.heading)
+    }
+
+    /// Applies the body typography style.
+    public func financeBody() -> some View {
+        self.font(DesignTokens.Typography.body)
+    }
+
+    /// Applies the caption typography style.
+    public func financeCaption() -> some View {
+        self.font(DesignTokens.Typography.caption)
+    }
+}
+
+// MARK: - Platform Adaptations (iOS)
+
+#if canImport(UIKit)
+extension View {
+    /// Triggers haptic feedback of the specified type.
+    ///
+    /// - Parameter type: The feedback style to use.
+    public func hapticFeedback(_ type: UINotificationFeedbackGenerator.FeedbackType) -> some View {
+        self.modifier(HapticFeedbackModifier(type: type))
+    }
+}
+
+/// A modifier that fires a haptic feedback notification when it appears.
+private struct HapticFeedbackModifier: ViewModifier {
+    let type: UINotificationFeedbackGenerator.FeedbackType
+
+    func body(content: Content) -> some View {
+        content.onAppear {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(type)
+        }
+    }
+}
+#endif
+
+// MARK: - Platform Adaptations (macOS)
+
+#if os(macOS)
+extension View {
+    /// Applies a consistent toolbar style for macOS windows.
+    public func financeToolbarStyle() -> some View {
+        self.toolbarBackgroundVisibility(.visible, for: .windowToolbar)
+    }
+}
+#endif
+
+// MARK: - Adaptive Presentation
+
+extension View {
+    /// Presents content as a sheet on compact sizes and a popover on regular sizes.
+    ///
+    /// - Parameters:
+    ///   - isPresented: Binding controlling presentation.
+    ///   - content: The content to present.
+    public func adaptiveSheet<Content: View>(
+        isPresented: Binding<Bool>,
+        @ViewBuilder content: @escaping () -> Content
+    ) -> some View {
+        self.modifier(AdaptiveSheetModifier(isPresented: isPresented, sheetContent: content))
+    }
+}
+
+/// Presents as a sheet on compact width and popover on regular width.
+private struct AdaptiveSheetModifier<SheetContent: View>: ViewModifier {
+    @Binding var isPresented: Bool
+    @ViewBuilder var sheetContent: () -> SheetContent
+
+    @Environment(\.horizontalSizeClass) private var sizeClass
+
+    func body(content: Content) -> some View {
+        #if os(iOS)
+        if sizeClass == .regular {
+            content.popover(isPresented: $isPresented) {
+                sheetContent()
+            }
+        } else {
+            content.sheet(isPresented: $isPresented) {
+                sheetContent()
+            }
+        }
+        #else
+        content.sheet(isPresented: $isPresented) {
+            sheetContent()
+        }
+        #endif
+    }
+}
+
+// MARK: - Color Hex Extensions
 
 extension Color {
     /// Creates a color from a hexadecimal string.

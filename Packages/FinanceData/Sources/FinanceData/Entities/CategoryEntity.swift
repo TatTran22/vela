@@ -11,6 +11,8 @@ import SwiftData
 public final class CategoryEntity {
     public var id: UUID = UUID()
     public var name: String = ""
+    /// Localized display name for the current locale.
+    public var localizedName: String = ""
     public var iconName: String = "folder"
     public var colorHex: String = "#007AFF"
     /// Raw value of `TransactionType` (e.g., "income", "expense", "transfer").
@@ -19,27 +21,33 @@ public final class CategoryEntity {
     public var parentID: UUID?
     public var sortOrder: Int = 0
     public var isDefault: Bool = false
+    /// Whether this category is archived and hidden from the category picker.
+    public var isArchived: Bool = false
     public var createdAt: Date = Date()
 
     public init(
         id: UUID = UUID(),
         name: String = "",
+        localizedName: String = "",
         iconName: String = "folder",
         colorHex: String = "#007AFF",
         typeRawValue: String = "expense",
         parentID: UUID? = nil,
         sortOrder: Int = 0,
         isDefault: Bool = false,
+        isArchived: Bool = false,
         createdAt: Date = Date()
     ) {
         self.id = id
         self.name = name
+        self.localizedName = localizedName
         self.iconName = iconName
         self.colorHex = colorHex
         self.typeRawValue = typeRawValue
         self.parentID = parentID
         self.sortOrder = sortOrder
         self.isDefault = isDefault
+        self.isArchived = isArchived
         self.createdAt = createdAt
     }
 }

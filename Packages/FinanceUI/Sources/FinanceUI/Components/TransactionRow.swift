@@ -132,11 +132,11 @@ public struct TransactionRow: View {
     private var amountColor: Color {
         switch transaction.type {
         case .income:
-            return .green
+            return DesignTokens.Colors.income
         case .expense:
-            return .red
+            return DesignTokens.Colors.expense
         case .transfer:
-            return .blue
+            return DesignTokens.Colors.transfer
         }
     }
 

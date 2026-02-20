@@ -12,12 +12,14 @@ extension CategoryEntity {
         FinanceCore.Category(
             id: id,
             name: name,
+            localizedName: localizedName,
             iconName: iconName,
             colorHex: colorHex,
             type: TransactionType(rawValue: typeRawValue) ?? .expense,
             parentID: parentID,
             sortOrder: sortOrder,
             isDefault: isDefault,
+            isArchived: isArchived,
             createdAt: createdAt
         )
     }
@@ -30,12 +32,14 @@ extension CategoryEntity {
     /// - Parameter domain: The domain `FinanceCore.Category` model to update from.
     func update(from domain: FinanceCore.Category) {
         name = domain.name
+        localizedName = domain.localizedName
         iconName = domain.iconName
         colorHex = domain.colorHex
         typeRawValue = domain.type.rawValue
         parentID = domain.parentID
         sortOrder = domain.sortOrder
         isDefault = domain.isDefault
+        isArchived = domain.isArchived
     }
 
     /// Creates a new entity from a domain Category model.
@@ -46,12 +50,14 @@ extension CategoryEntity {
         CategoryEntity(
             id: domain.id,
             name: domain.name,
+            localizedName: domain.localizedName,
             iconName: domain.iconName,
             colorHex: domain.colorHex,
             typeRawValue: domain.type.rawValue,
             parentID: domain.parentID,
             sortOrder: domain.sortOrder,
             isDefault: domain.isDefault,
+            isArchived: domain.isArchived,
             createdAt: domain.createdAt
         )
     }

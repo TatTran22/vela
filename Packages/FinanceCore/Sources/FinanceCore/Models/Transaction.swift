@@ -54,6 +54,12 @@ public struct Transaction: Identifiable, Sendable, Hashable, Codable {
     /// not a monetary value. Valid range: -180.0 … 180.0.
     public var longitude: Double?
 
+    /// Binary data of a receipt image attached to this transaction.
+    ///
+    /// Stored as raw `Data` to remain platform-agnostic. The UI layer is
+    /// responsible for converting this to/from an image type.
+    public var receiptImageData: Data?
+
     /// Arbitrary key-value metadata for extensibility (e.g., receipt URLs, merchant IDs).
     public var metadata: [String: String]?
 
@@ -82,6 +88,7 @@ public struct Transaction: Identifiable, Sendable, Hashable, Codable {
     ///   - tags: Tag UUIDs applied to this transaction. Defaults to empty array.
     ///   - latitude: Optional WGS-84 latitude. Defaults to nil.
     ///   - longitude: Optional WGS-84 longitude. Defaults to nil.
+    ///   - receiptImageData: Optional receipt image binary data. Defaults to nil.
     ///   - metadata: Optional key-value metadata. Defaults to nil.
     ///   - deletedAt: Soft delete timestamp. Defaults to nil.
     ///   - createdAt: Record creation date. Defaults to now.
@@ -99,6 +106,7 @@ public struct Transaction: Identifiable, Sendable, Hashable, Codable {
         tags: [UUID] = [],
         latitude: Double? = nil,
         longitude: Double? = nil,
+        receiptImageData: Data? = nil,
         metadata: [String: String]? = nil,
         deletedAt: Date? = nil,
         createdAt: Date = Date(),
@@ -116,6 +124,7 @@ public struct Transaction: Identifiable, Sendable, Hashable, Codable {
         self.tags = tags
         self.latitude = latitude
         self.longitude = longitude
+        self.receiptImageData = receiptImageData
         self.metadata = metadata
         self.deletedAt = deletedAt
         self.createdAt = createdAt

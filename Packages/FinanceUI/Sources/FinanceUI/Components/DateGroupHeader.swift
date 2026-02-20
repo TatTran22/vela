@@ -79,7 +79,7 @@ public struct DateGroupHeader: View {
                     .font(.caption)
                     .fontWeight(.medium)
                     .monospacedDigit()
-                    .foregroundStyle(.green)
+                    .foregroundStyle(DesignTokens.Colors.income)
             }
 
             if expense > 0 {
@@ -87,7 +87,7 @@ public struct DateGroupHeader: View {
                     .font(.caption)
                     .fontWeight(.medium)
                     .monospacedDigit()
-                    .foregroundStyle(.red)
+                    .foregroundStyle(DesignTokens.Colors.expense)
             }
         }
     }
