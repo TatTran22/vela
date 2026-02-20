@@ -35,22 +35,11 @@ public enum CurrencyCode: String, Sendable, CaseIterable, Codable, Hashable {
         }
     }
 
-    /// Full name of the currency.
+    /// Localized full name of the currency.
     ///
     /// Returns the complete currency name for display purposes.
     public var name: String {
-        switch self {
-        case .VND: return "Vietnamese Dong"
-        case .USD: return "US Dollar"
-        case .EUR: return "Euro"
-        case .JPY: return "Japanese Yen"
-        case .KRW: return "South Korean Won"
-        case .THB: return "Thai Baht"
-        case .SGD: return "Singapore Dollar"
-        case .AUD: return "Australian Dollar"
-        case .GBP: return "British Pound Sterling"
-        case .CNY: return "Chinese Yuan"
-        }
+        CoreStrings.currencyName(rawValue)
     }
 
     /// Number of decimal places used for this currency.

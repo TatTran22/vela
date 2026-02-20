@@ -30,16 +30,16 @@ struct TransactionDetailView: View {
                 detailContent
             }
         }
-        .navigationTitle(viewModel.isEditing ? "Edit Transaction" : (viewModel.category?.name ?? "Transaction"))
+        .navigationTitle(viewModel.isEditing ? AppStrings.transactionDetailEditTitle : (viewModel.category?.name ?? AppStrings.transactionDetailTitle))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if viewModel.isEditing {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { viewModel.cancelEditing() }
+                    Button(AppStrings.cancel) { viewModel.cancelEditing() }
                         .accessibilityLabel("Cancel editing.")
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
+                    Button(AppStrings.save) {
                         Task { await viewModel.saveEdit() }
                     }
                     .fontWeight(.semibold)
@@ -47,7 +47,7 @@ struct TransactionDetailView: View {
                 }
             } else {
                 ToolbarItem(placement: .primaryAction) {
-                    Button("Edit") { viewModel.startEditing() }
+                    Button(AppStrings.edit) { viewModel.startEditing() }
                         .accessibilityLabel("Edit this transaction.")
                 }
                 ToolbarItem(placement: .destructiveAction) {
@@ -61,19 +61,19 @@ struct TransactionDetailView: View {
             }
         }
         .confirmationDialog(
-            "Delete Transaction?",
+            AppStrings.transactionDetailDeleteTitle,
             isPresented: $viewModel.showDeleteConfirmation,
             titleVisibility: .visible
         ) {
-            Button("Delete", role: .destructive) {
+            Button(AppStrings.delete, role: .destructive) {
                 Task { await viewModel.deleteTransaction() }
             }
-            Button("Cancel", role: .cancel) {}
+            Button(AppStrings.cancel, role: .cancel) {}
         } message: {
-            Text("This action cannot be undone.")
+            Text(AppStrings.transactionDetailDeleteMessage)
         }
-        .alert("Error", isPresented: $viewModel.showError) {
-            Button("OK") {}
+        .alert(AppStrings.error, isPresented: $viewModel.showError) {
+            Button(AppStrings.ok) {}
         } message: {
             if let error = viewModel.error {
                 Text(error.localizedDescription)
@@ -141,8 +141,8 @@ struct TransactionDetailView: View {
             DetailRow(
                 icon: viewModel.category?.iconName ?? "questionmark.circle",
                 iconColor: Color(hex: viewModel.category?.colorHex ?? "#8E8E93"),
-                label: "Category",
-                value: viewModel.category?.name ?? "Unknown"
+                label: AppStrings.transactionDetailCategory,
+                value: viewModel.category?.name ?? AppStrings.transactionDetailUnknown
             )
             Divider().padding(.leading, 52)
 
@@ -150,8 +150,8 @@ struct TransactionDetailView: View {
             DetailRow(
                 icon: viewModel.account?.iconName ?? "banknote",
                 iconColor: Color(hex: viewModel.account?.colorHex ?? "#007AFF"),
-                label: "Account",
-                value: viewModel.account?.name ?? "Unknown"
+                label: AppStrings.transactionDetailAccount,
+                value: viewModel.account?.name ?? AppStrings.transactionDetailUnknown
             )
 
             // To account (transfers only)
@@ -160,8 +160,8 @@ struct TransactionDetailView: View {
                 DetailRow(
                     icon: viewModel.toAccount?.iconName ?? "banknote",
                     iconColor: Color(hex: viewModel.toAccount?.colorHex ?? "#007AFF"),
-                    label: "To Account",
-                    value: viewModel.toAccount?.name ?? "Unknown"
+                    label: AppStrings.transactionDetailToAccount,
+                    value: viewModel.toAccount?.name ?? AppStrings.transactionDetailUnknown
                 )
             }
 
@@ -171,7 +171,7 @@ struct TransactionDetailView: View {
             DetailRow(
                 icon: "calendar",
                 iconColor: .blue,
-                label: "Date",
+                label: AppStrings.transactionDetailDate,
                 value: viewModel.transaction.date.formatted(date: .long, time: .shortened)
             )
 
@@ -181,7 +181,7 @@ struct TransactionDetailView: View {
                 DetailRow(
                     icon: "note.text",
                     iconColor: .orange,
-                    label: "Note",
+                    label: AppStrings.transactionDetailNote,
                     value: viewModel.transaction.note
                 )
             }
@@ -192,7 +192,7 @@ struct TransactionDetailView: View {
 
     private var tagsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Tags")
+            Text(AppStrings.transactionDetailTags)
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
@@ -216,9 +216,9 @@ struct TransactionDetailView: View {
 
     private var editContent: some View {
         Form {
-            Section("Amount") {
+            Section(AppStrings.transactionDetailAmount) {
                 HStack {
-                    Text("Amount")
+                    Text(AppStrings.transactionDetailAmount)
                         .foregroundStyle(.secondary)
                     Spacer()
                     TextField("0", text: $viewModel.editAmount)
@@ -228,13 +228,13 @@ struct TransactionDetailView: View {
                 }
             }
 
-            Section("Category") {
+            Section(AppStrings.transactionDetailCategory) {
                 if viewModel.availableCategories.isEmpty {
-                    Text("No categories available.")
+                    Text(AppStrings.quickInputNoCategory)
                         .foregroundStyle(.secondary)
                 } else {
-                    Picker("Category", selection: $viewModel.editCategory) {
-                        Text("None").tag(Optional<FinanceCore.Category>.none)
+                    Picker(AppStrings.transactionDetailCategory, selection: $viewModel.editCategory) {
+                        Text(AppStrings.none).tag(Optional<FinanceCore.Category>.none)
                         ForEach(viewModel.availableCategories.filter { $0.type == viewModel.transaction.type }) { cat in
                             Label(cat.name, systemImage: cat.iconName)
                                 .tag(Optional(cat))
@@ -244,17 +244,17 @@ struct TransactionDetailView: View {
                 }
             }
 
-            Section("Date") {
+            Section(AppStrings.transactionDetailDate) {
                 DatePicker(
-                    "Date",
+                    AppStrings.transactionDetailDate,
                     selection: $viewModel.editDate,
                     displayedComponents: [.date, .hourAndMinute]
                 )
                 .accessibilityLabel("Edit transaction date and time.")
             }
 
-            Section("Note") {
-                TextField("Optional note", text: $viewModel.editNote, axis: .vertical)
+            Section(AppStrings.transactionDetailNote) {
+                TextField(AppStrings.quickInputOptionalNote, text: $viewModel.editNote, axis: .vertical)
                     .lineLimit(3)
                     .accessibilityLabel("Edit note.")
             }

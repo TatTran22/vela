@@ -2,7 +2,7 @@ import SwiftUI
 
 struct OnboardingPlaceholderView: View {
     var body: some View {
-        Text("Welcome to FinanceApp")
+        Text(AppStrings.placeholderOnboarding)
             .font(.largeTitle)
     }
 }

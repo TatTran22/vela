@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MacCategoriesPlaceholderView: View {
     var body: some View {
-        Text("Categories")
-            .navigationTitle("Categories")
+        Text(AppStrings.navCategories)
+            .navigationTitle(AppStrings.navCategories)
     }
 }

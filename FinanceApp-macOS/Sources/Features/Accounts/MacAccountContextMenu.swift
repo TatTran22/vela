@@ -25,21 +25,21 @@ struct MacAccountContextMenu: ViewModifier {
     func body(content: Content) -> some View {
         content.contextMenu {
             Button { onEdit() } label: {
-                Label("Edit Account", systemImage: "pencil")
+                Label(AppStrings.contextEdit, systemImage: "pencil")
             }
 
             Divider()
 
             Button { onArchive() } label: {
                 Label(
-                    account.isArchived ? "Unarchive" : "Archive",
+                    account.isArchived ? AppStrings.contextUnarchive : AppStrings.contextArchive,
                     systemImage: account.isArchived ? "tray.and.arrow.up" : "archivebox"
                 )
             }
 
             Button { onHide() } label: {
                 Label(
-                    account.isHidden ? "Show" : "Hide",
+                    account.isHidden ? AppStrings.contextShow : AppStrings.contextHide,
                     systemImage: account.isHidden ? "eye" : "eye.slash"
                 )
             }
@@ -47,7 +47,7 @@ struct MacAccountContextMenu: ViewModifier {
             Divider()
 
             Button(role: .destructive) { onDelete() } label: {
-                Label("Delete Account", systemImage: "trash")
+                Label(AppStrings.contextDelete, systemImage: "trash")
             }
         }
     }

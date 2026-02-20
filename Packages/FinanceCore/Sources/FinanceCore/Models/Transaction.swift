@@ -143,12 +143,12 @@ public enum TransactionType: String, Sendable, CaseIterable, Codable, Hashable {
     /// Money moved between two accounts owned by the same user.
     case transfer
 
-    /// A human-readable label for the transaction type.
+    /// A human-readable, localized label for the transaction type.
     public var displayName: String {
         switch self {
-        case .income: return "Income"
-        case .expense: return "Expense"
-        case .transfer: return "Transfer"
+        case .income: return CoreStrings.transactionTypeIncome
+        case .expense: return CoreStrings.transactionTypeExpense
+        case .transfer: return CoreStrings.transactionTypeTransfer
         }
     }
 }

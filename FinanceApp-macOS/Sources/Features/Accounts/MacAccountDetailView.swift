@@ -25,17 +25,17 @@ struct MacAccountDetailView: View {
 
                 // Stats grid
                 HStack(spacing: 16) {
-                    statCard(title: "Income", amount: 0, icon: "arrow.down.circle", color: .green)
-                    statCard(title: "Expense", amount: 0, icon: "arrow.up.circle", color: .red)
-                    statCard(title: "Net", amount: 0, icon: "equal.circle", color: .blue)
+                    statCard(title: AppStrings.accountDetailIncome, amount: 0, icon: "arrow.down.circle", color: .green)
+                    statCard(title: AppStrings.accountDetailExpense, amount: 0, icon: "arrow.up.circle", color: .red)
+                    statCard(title: AppStrings.accountDetailNet, amount: 0, icon: "equal.circle", color: .blue)
                 }
 
                 // Transaction table placeholder
-                GroupBox("Recent Transactions") {
+                GroupBox(AppStrings.accountDetailRecentTransactions) {
                     ContentUnavailableView {
-                        Label("No Transactions", systemImage: "list.bullet")
+                        Label(AppStrings.accountDetailNoTransactions, systemImage: "list.bullet")
                     } description: {
-                        Text("Transactions will appear here once the Transactions feature is implemented.")
+                        Text(AppStrings.accountDetailTransactionsPlaceholder)
                     }
                     .frame(minHeight: 200)
                 }
@@ -46,12 +46,12 @@ struct MacAccountDetailView: View {
         .toolbar {
             ToolbarItemGroup {
                 Button { onEdit() } label: {
-                    Label("Edit", systemImage: "pencil")
+                    Label(AppStrings.edit, systemImage: "pencil")
                 }
                 .keyboardShortcut("e", modifiers: .command)
 
                 Button(role: .destructive) { onDelete() } label: {
-                    Label("Delete", systemImage: "trash")
+                    Label(AppStrings.delete, systemImage: "trash")
                 }
                 .keyboardShortcut(.delete, modifiers: .command)
             }

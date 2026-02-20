@@ -28,7 +28,7 @@ struct BalanceAdjustSheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Current Balance") {
+                Section(AppStrings.balanceAdjustCurrentBalance) {
                     BalanceText(
                         amount: account.balance,
                         currencyCode: account.currency,
@@ -36,17 +36,17 @@ struct BalanceAdjustSheet: View {
                     )
                 }
 
-                Section("Adjustment Amount") {
-                    TextField("Amount (+/-)", text: $adjustmentAmount)
+                Section(AppStrings.balanceAdjustAdjustmentAmount) {
+                    TextField(AppStrings.balanceAdjustAmountPlaceholder, text: $adjustmentAmount)
                         .keyboardType(.decimalPad)
 
-                    Text("Enter a positive amount to increase or negative to decrease")
+                    Text(AppStrings.balanceAdjustHint)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
                 if parsedAdjustment != 0 {
-                    Section("New Balance") {
+                    Section(AppStrings.balanceAdjustNewBalance) {
                         HStack {
                             BalanceText(
                                 amount: newBalance,
@@ -69,11 +69,11 @@ struct BalanceAdjustSheet: View {
                     }
                 }
             }
-            .navigationTitle("Adjust Balance")
+            .navigationTitle(AppStrings.balanceAdjustTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
+                    Button(AppStrings.cancel) {
                         dismiss()
                     }
                 }
@@ -81,7 +81,7 @@ struct BalanceAdjustSheet: View {
                     if isProcessing {
                         ProgressView()
                     } else {
-                        Button("Apply") {
+                        Button(AppStrings.apply) {
                             Task {
                                 isProcessing = true
                                 await onAdjust(parsedAdjustment)

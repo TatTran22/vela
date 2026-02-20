@@ -91,9 +91,9 @@ extension EmptyStateView {
     public static func noTransactions(action: @escaping () -> Void) -> EmptyStateView {
         EmptyStateView(
             icon: "list.bullet",
-            title: "No Transactions",
-            subtitle: "Add your first transaction to start tracking your finances.",
-            actionTitle: "Add Transaction",
+            title: UIStrings.noTransactionsTitle,
+            subtitle: UIStrings.noTransactionsSubtitle,
+            actionTitle: UIStrings.noTransactionsAction,
             action: action
         )
     }
@@ -102,9 +102,9 @@ extension EmptyStateView {
     public static func noAccounts(action: @escaping () -> Void) -> EmptyStateView {
         EmptyStateView(
             icon: "creditcard",
-            title: "No Accounts",
-            subtitle: "Create an account to manage your money.",
-            actionTitle: "Add Account",
+            title: UIStrings.noAccountsTitle,
+            subtitle: UIStrings.noAccountsSubtitle,
+            actionTitle: UIStrings.noAccountsAction,
             action: action
         )
     }
@@ -113,8 +113,8 @@ extension EmptyStateView {
     public static var noResults: EmptyStateView {
         EmptyStateView(
             icon: "magnifyingglass",
-            title: "No Results",
-            subtitle: "Try adjusting your search or filter criteria."
+            title: UIStrings.noResultsTitle,
+            subtitle: UIStrings.noResultsSubtitle
         )
     }
 }

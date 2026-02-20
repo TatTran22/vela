@@ -91,19 +91,19 @@ public struct SyncStatusIndicator: View {
 
     private var label: String {
         switch status {
-        case .synced: return "Synced"
-        case .syncing: return "Syncing"
-        case .offline: return "Offline"
-        case .error: return "Error"
+        case .synced: return UIStrings.syncSynced
+        case .syncing: return UIStrings.syncSyncing
+        case .offline: return UIStrings.syncOffline
+        case .error: return UIStrings.syncError
         }
     }
 
     private var accessibilityLabel: String {
         switch status {
-        case .synced: return "Sync status: synced"
-        case .syncing: return "Sync status: syncing in progress"
-        case .offline: return "Sync status: offline"
-        case .error: return "Sync status: error"
+        case .synced: return UIStrings.syncAccessibilitySynced
+        case .syncing: return UIStrings.syncAccessibilitySyncing
+        case .offline: return UIStrings.syncAccessibilityOffline
+        case .error: return UIStrings.syncAccessibilityError
         }
     }
 }

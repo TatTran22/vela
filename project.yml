@@ -28,9 +28,8 @@ targets:
     deploymentTarget: "17.0"
     sources:
       - path: FinanceApp-iOS/Sources
-    resources:
       - path: FinanceApp-iOS/Resources
-        optional: true
+        type: resource
     dependencies:
       - package: FinanceCore
       - package: FinanceData
@@ -57,9 +56,8 @@ targets:
     deploymentTarget: "14.0"
     sources:
       - path: FinanceApp-macOS/Sources
-    resources:
       - path: FinanceApp-macOS/Resources
-        optional: true
+        type: resource
     dependencies:
       - package: FinanceCore
       - package: FinanceData

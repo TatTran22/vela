@@ -46,11 +46,11 @@ struct MacAccountsView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if viewModel.accounts.isEmpty {
                 ContentUnavailableView {
-                    Label("No Accounts", systemImage: "creditcard")
+                    Label(AppStrings.accountEmptyTitle, systemImage: "creditcard")
                 } description: {
-                    Text("Create your first account to get started.")
+                    Text(AppStrings.accountEmptySubtitle)
                 } actions: {
-                    Button("New Account") {
+                    Button(AppStrings.accountNew) {
                         accountToEdit = nil
                         showingNewAccount = true
                     }
@@ -77,7 +77,7 @@ struct MacAccountsView: View {
                             }
                         )
                     } else {
-                        ContentUnavailableView("Select an Account", systemImage: "creditcard")
+                        ContentUnavailableView(AppStrings.accountSelectAccount, systemImage: "creditcard")
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
@@ -90,7 +90,7 @@ struct MacAccountsView: View {
                     accountToEdit = nil
                     showingNewAccount = true
                 } label: {
-                    Label("New Account", systemImage: "plus")
+                    Label(AppStrings.accountNew, systemImage: "plus")
                 }
                 .keyboardShortcut("n", modifiers: .command)
             }
@@ -120,8 +120,8 @@ struct MacAccountsView: View {
                 selectedAccount = nil
             }
         }
-        .alert("Error", isPresented: $viewModel.showError) {
-            Button("OK") { viewModel.showError = false }
+        .alert(AppStrings.error, isPresented: $viewModel.showError) {
+            Button(AppStrings.ok) { viewModel.showError = false }
         } message: {
             if let message = viewModel.errorMessage {
                 Text(message)

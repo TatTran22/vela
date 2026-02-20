@@ -70,9 +70,9 @@ struct MacAccountEditView: View {
     var body: some View {
         Form {
             // MARK: - General
-            Section("General") {
+            Section(AppStrings.editGeneral) {
                 VStack(alignment: .leading, spacing: 4) {
-                    TextField("Account Name", text: $name, prompt: Text("e.g. My Savings"))
+                    TextField(AppStrings.editAccountName, text: $name, prompt: Text(AppStrings.editNamePlaceholder))
                         .onChange(of: name) { _, _ in fieldErrors.removeValue(forKey: "name") }
                     if let error = fieldErrors["name"] {
                         Text(error)
@@ -81,7 +81,7 @@ struct MacAccountEditView: View {
                     }
                 }
 
-                Picker("Type", selection: $type) {
+                Picker(AppStrings.entryType, selection: $type) {
                     ForEach(AccountType.allCases, id: \.self) { t in
                         Label(t.displayName, systemImage: t.defaultIconName).tag(t)
                     }
@@ -93,7 +93,7 @@ struct MacAccountEditView: View {
                 }
 
                 if type == .eWallet {
-                    Picker("Provider", selection: Binding(
+                    Picker(AppStrings.editProvider, selection: Binding(
                         get: { eWalletProvider ?? .other },
                         set: { eWalletProvider = $0 }
                     )) {
@@ -105,9 +105,9 @@ struct MacAccountEditView: View {
             }
 
             // MARK: - Appearance
-            Section("Appearance") {
+            Section(AppStrings.editAppearance) {
                 HStack {
-                    Text("Icon")
+                    Text(AppStrings.editIcon)
                     Spacer()
                     Button {
                         showingIconPicker = true
@@ -127,7 +127,7 @@ struct MacAccountEditView: View {
                 }
 
                 HStack {
-                    Text("Color")
+                    Text(AppStrings.editColor)
                     Spacer()
                     Button {
                         showingColorPicker = true
@@ -148,7 +148,7 @@ struct MacAccountEditView: View {
                     .buttonStyle(.plain)
                     .popover(isPresented: $showingColorPicker) {
                         VStack(spacing: 16) {
-                            Text("Choose Color")
+                            Text(AppStrings.editChooseColor)
                                 .font(.headline)
                             
                             ColorPickerGrid(selectedColorHex: $colorHex) { _ in
@@ -162,15 +162,15 @@ struct MacAccountEditView: View {
             }
 
             // MARK: - Currency
-            Section("Currency") {
-                Picker("Currency", selection: $currency) {
+            Section(AppStrings.editCurrency) {
+                Picker(AppStrings.editCurrency, selection: $currency) {
                     ForEach(CurrencyCode.allCases, id: \.self) { c in
                         Text("\(c.flag) \(c.rawValue) - \(c.name)").tag(c)
                     }
                 }
                 .disabled(isEditing)
                 if isEditing {
-                    Text("Currency cannot be changed for existing accounts.")
+                    Text(AppStrings.editCurrencyCannotChange)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -178,21 +178,24 @@ struct MacAccountEditView: View {
 
             // MARK: - Initial Balance
             if !isEditing {
-                Section("Initial Balance") {
-                    TextField("Initial Balance", text: $initialBalance, prompt: Text("0"))
+                Section(AppStrings.editInitialBalance) {
+                    TextField(AppStrings.editInitialBalance, text: $initialBalance, prompt: Text("0"))
                 }
             }
 
             // MARK: - Notes
-            Section("Notes") {
+            Section(AppStrings.editNotes) {
                 TextEditor(text: $note)
+                    .scrollContentBackground(.hidden)
                     .frame(height: 80)
+                    // .padding(.horizontal, 8)
+                    // .padding(.vertical, 12)
                     .overlay(alignment: .topLeading) {
                         if note.isEmpty {
-                            Text("Optional notes...")
+                            Text(AppStrings.editOptionalNotes)
                                 .foregroundStyle(.tertiary)
-                                .padding(.top, 8)
-                                .padding(.leading, 4)
+                                // .padding(.top, 14)
+                                // .padding(.leading, 12)
                                 .allowsHitTesting(false)
                         }
                     }
@@ -207,13 +210,13 @@ struct MacAccountEditView: View {
             }
         }
         .formStyle(.grouped)
-        .navigationTitle(isEditing ? "Edit Account" : "New Account")
+        .navigationTitle(isEditing ? AppStrings.accountEdit : AppStrings.accountNew)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") { dismiss() }
+                Button(AppStrings.cancel) { dismiss() }
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
+                Button(AppStrings.save) {
                     Task { await save() }
                 }
                 .disabled(isSaving)
@@ -231,7 +234,7 @@ struct MacAccountEditView: View {
 
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.isEmpty {
-            fieldErrors["name"] = "Account name is required"
+            fieldErrors["name"] = AppStrings.editNameRequired
         }
 
         return fieldErrors.isEmpty
@@ -288,9 +291,9 @@ struct MacAccountEditView: View {
     private func mapAccountError(_ error: AccountError) {
         switch error {
         case .nameEmpty:
-            fieldErrors["name"] = "Account name is required"
+            fieldErrors["name"] = AppStrings.editNameRequired
         case .nameAlreadyExists(_):
-            fieldErrors["name"] = "An account with this name already exists"
+            fieldErrors["name"] = AppStrings.editNameExists
         default:
             errorMessage = error.localizedDescription
         }

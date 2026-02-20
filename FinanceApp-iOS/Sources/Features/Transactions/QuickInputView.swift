@@ -29,18 +29,18 @@ struct QuickInputView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") { dismiss() }
+                Button(AppStrings.cancel) { dismiss() }
                     .accessibilityLabel("Cancel and dismiss the entry form.")
             }
             if viewModel.currentStep != .amount {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Back") { viewModel.previousStep() }
+                    Button(AppStrings.back) { viewModel.previousStep() }
                         .accessibilityLabel("Go back to the previous step.")
                 }
             }
         }
-        .alert("Error", isPresented: $viewModel.showError) {
-            Button("OK") {}
+        .alert(AppStrings.error, isPresented: $viewModel.showError) {
+            Button(AppStrings.ok) {}
         } message: {
             if let error = viewModel.error {
                 Text(error.localizedDescription)
@@ -91,7 +91,7 @@ struct QuickInputView: View {
             }
 
             // Next button
-            nextButton(label: "Next: Choose Category") {
+            nextButton(label: AppStrings.quickInputNextCategory) {
                 viewModel.nextStep()
             }
             .padding(.horizontal)
@@ -154,7 +154,7 @@ struct QuickInputView: View {
                             viewModel.showDetails = true
                         }
                     } label: {
-                        Label("Add Details", systemImage: "chevron.down")
+                        Label(AppStrings.quickInputAddDetails, systemImage: "chevron.down")
                             .font(.subheadline)
                             .foregroundStyle(.blue)
                     }
@@ -185,7 +185,7 @@ struct QuickInputView: View {
             // Category row
             HStack {
                 Label {
-                    Text(viewModel.selectedCategory?.name ?? "No category")
+                    Text(viewModel.selectedCategory?.name ?? AppStrings.quickInputNoCategory)
                         .foregroundStyle(.primary)
                 } icon: {
                     if let cat = viewModel.selectedCategory {
@@ -203,20 +203,20 @@ struct QuickInputView: View {
                     }
                 }
                 Spacer()
-                Text("Category")
+                Text(AppStrings.transactionDetailCategory)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            .accessibilityLabel("Category: \(viewModel.selectedCategory?.name ?? "None")")
+            .accessibilityLabel("Category: \(viewModel.selectedCategory?.name ?? AppStrings.none)")
 
             // Account row
             HStack {
                 Image(systemName: viewModel.selectedAccount?.iconName ?? "banknote")
                     .foregroundStyle(.blue)
-                Text(viewModel.selectedAccount?.name ?? "No account selected")
+                Text(viewModel.selectedAccount?.name ?? AppStrings.quickInputNoAccount)
                     .foregroundStyle(.primary)
                 Spacer()
-                Text("Account")
+                Text(AppStrings.transactionDetailAccount)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -229,16 +229,16 @@ struct QuickInputView: View {
 
     private var detailsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Details")
+            Text(AppStrings.quickInputDetails)
                 .font(.headline)
                 .accessibilityAddTraits(.isHeader)
 
             // Note field
             VStack(alignment: .leading, spacing: 4) {
-                Text("Note")
+                Text(AppStrings.transactionDetailNote)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                TextField("Optional note", text: $viewModel.note, axis: .vertical)
+                TextField(AppStrings.quickInputOptionalNote, text: $viewModel.note, axis: .vertical)
                     .textFieldStyle(.roundedBorder)
                     .lineLimit(3)
                     .accessibilityLabel("Transaction note.")
@@ -246,7 +246,7 @@ struct QuickInputView: View {
 
             // Date picker
             DatePicker(
-                "Date",
+                AppStrings.transactionDetailDate,
                 selection: $viewModel.date,
                 displayedComponents: [.date, .hourAndMinute]
             )
@@ -255,10 +255,10 @@ struct QuickInputView: View {
             // Account picker
             if !viewModel.accounts.isEmpty {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Account")
+                    Text(AppStrings.transactionDetailAccount)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Picker("Account", selection: $viewModel.selectedAccount) {
+                    Picker(AppStrings.transactionDetailAccount, selection: $viewModel.selectedAccount) {
                         ForEach(viewModel.accounts) { account in
                             Text(account.name).tag(Optional(account))
                         }
@@ -283,7 +283,7 @@ struct QuickInputView: View {
                         .progressViewStyle(.circular)
                         .tint(.white)
                 } else {
-                    Text("Save Transaction")
+                    Text(AppStrings.quickInputSaveTransaction)
                         .fontWeight(.semibold)
                 }
             }
@@ -302,11 +302,11 @@ struct QuickInputView: View {
     private var navigationTitle: String {
         switch viewModel.currentStep {
         case .amount:
-            return "Amount"
+            return AppStrings.quickInputTitleAmount
         case .category:
-            return "Category"
+            return AppStrings.quickInputTitleCategory
         case .review:
-            return "Review"
+            return AppStrings.quickInputTitleReview
         }
     }
 

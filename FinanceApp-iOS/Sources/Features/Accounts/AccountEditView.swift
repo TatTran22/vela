@@ -22,9 +22,9 @@ struct AccountEditView: View {
     var body: some View {
         Form {
             // Name section
-            Section("Account Name") {
+            Section(AppStrings.accountEditSectionName) {
                 VStack(alignment: .leading, spacing: 4) {
-                    TextField("Account Name", text: $viewModel.name, prompt: Text("e.g. My Savings"))
+                    TextField(AppStrings.accountEditSectionName, text: $viewModel.name, prompt: Text(AppStrings.accountEditNamePlaceholder))
                         .onChange(of: viewModel.name) { _, _ in
                             viewModel.fieldErrors.removeValue(forKey: "name")
                         }
@@ -37,8 +37,8 @@ struct AccountEditView: View {
             }
 
             // Type section
-            Section("Type") {
-                Picker("Account Type", selection: $viewModel.type) {
+            Section(AppStrings.accountEditSectionType) {
+                Picker(AppStrings.accountEditSectionType, selection: $viewModel.type) {
                     ForEach(AccountType.allCases, id: \.self) { type in
                         Label(type.displayName, systemImage: type.defaultIconName)
                             .tag(type)
@@ -54,7 +54,7 @@ struct AccountEditView: View {
                 }
 
                 if viewModel.type == .eWallet {
-                    Picker("Provider", selection: Binding(
+                    Picker(AppStrings.accountEditProvider, selection: Binding(
                         get: { viewModel.eWalletProvider ?? .other },
                         set: { viewModel.eWalletProvider = $0 }
                     )) {
@@ -66,12 +66,12 @@ struct AccountEditView: View {
             }
 
             // Appearance section
-            Section("Appearance") {
+            Section(AppStrings.accountEditSectionAppearance) {
                 NavigationLink {
                     IconPicker(selectedIcon: $viewModel.iconName)
                 } label: {
                     HStack {
-                        Text("Icon")
+                        Text(AppStrings.accountEditIcon)
                         Spacer()
                         Image(systemName: viewModel.iconName)
                             .font(.title3)
@@ -80,7 +80,7 @@ struct AccountEditView: View {
                 }
 
                 HStack {
-                    Text("Color")
+                    Text(AppStrings.accountEditColor)
                     Spacer()
                     Button {
                         showingColorPicker = true
@@ -97,7 +97,7 @@ struct AccountEditView: View {
                     .buttonStyle(.plain)
                     .popover(isPresented: $showingColorPicker) {
                         VStack(spacing: 16) {
-                            Text("Choose Color")
+                            Text(AppStrings.accountEditChooseColor)
                                 .font(.headline)
                                 .padding(.top, 4)
                             
@@ -113,12 +113,12 @@ struct AccountEditView: View {
             }
 
             // Currency section
-            Section("Currency") {
+            Section(AppStrings.accountEditSectionCurrency) {
                 NavigationLink {
                     CurrencyPicker(selected: $viewModel.currency)
                 } label: {
                     HStack {
-                        Text("Currency")
+                        Text(AppStrings.accountEditSectionCurrency)
                         Spacer()
                         Text("\(viewModel.currency.flag) \(viewModel.currency.rawValue)")
                             .foregroundStyle(.secondary)
@@ -127,7 +127,7 @@ struct AccountEditView: View {
                 .disabled(viewModel.isEditing)
 
                 if viewModel.isEditing {
-                    Text("Currency cannot be changed after account creation")
+                    Text(AppStrings.accountEditCurrencyCannotChange)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -135,8 +135,8 @@ struct AccountEditView: View {
 
             // Balance section
             if !viewModel.isEditing {
-                Section("Initial Balance") {
-                    TextField("Initial Balance", text: $viewModel.initialBalance, prompt: Text("0"))
+                Section(AppStrings.accountEditSectionBalance) {
+                    TextField(AppStrings.accountEditSectionBalance, text: $viewModel.initialBalance, prompt: Text("0"))
                         .keyboardType(.decimalPad)
 
                     if viewModel.parsedBalance != 0 {
@@ -151,8 +151,8 @@ struct AccountEditView: View {
             }
 
             // Notes section
-            Section("Notes") {
-                TextField("Notes", text: $viewModel.note, prompt: Text("Optional notes..."), axis: .vertical)
+            Section(AppStrings.accountEditSectionNotes) {
+                TextField(AppStrings.accountEditSectionNotes, text: $viewModel.note, prompt: Text(AppStrings.accountEditOptionalNotes), axis: .vertical)
                     .lineLimit(3...6)
             }
         }
@@ -160,7 +160,7 @@ struct AccountEditView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
+                Button(AppStrings.cancel) {
                     dismiss()
                 }
             }
@@ -168,7 +168,7 @@ struct AccountEditView: View {
                 if viewModel.isSaving {
                     ProgressView()
                 } else {
-                    Button("Save") {
+                    Button(AppStrings.save) {
                         Task {
                             await viewModel.save()
                             if viewModel.didSave {
@@ -180,8 +180,8 @@ struct AccountEditView: View {
                 }
             }
         }
-        .alert("Error", isPresented: $viewModel.showError) {
-            Button("OK") {}
+        .alert(AppStrings.error, isPresented: $viewModel.showError) {
+            Button(AppStrings.ok) {}
         } message: {
             if let error = viewModel.generalError {
                 Text(error)

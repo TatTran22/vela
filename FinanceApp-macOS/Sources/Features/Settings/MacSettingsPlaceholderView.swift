@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MacSettingsPlaceholderView: View {
     var body: some View {
-        Text("Settings")
-            .navigationTitle("Settings")
+        Text(AppStrings.navSettings)
+            .navigationTitle(AppStrings.navSettings)
     }
 }

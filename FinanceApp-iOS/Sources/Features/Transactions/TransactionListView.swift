@@ -50,11 +50,11 @@ struct TransactionListView: View {
                 transactionList
             }
         }
-        .navigationTitle("Transactions")
+        .navigationTitle(AppStrings.transactionListTitle)
         .searchable(
             text: $viewModel.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Search transactions"
+            prompt: AppStrings.transactionListSearchPrompt
         )
         .onChange(of: viewModel.searchText) { _, _ in
             viewModel.search()
@@ -98,8 +98,8 @@ struct TransactionListView: View {
                 Task { await viewModel.refresh() }
             }
         }
-        .alert("Error", isPresented: $viewModel.showError) {
-            Button("OK") {}
+        .alert(AppStrings.error, isPresented: $viewModel.showError) {
+            Button(AppStrings.ok) {}
         } message: {
             if let error = viewModel.error {
                 Text(error.localizedDescription)
@@ -120,11 +120,11 @@ struct TransactionListView: View {
 
     private var emptyState: some View {
         ContentUnavailableView {
-            Label("No Transactions", systemImage: "list.bullet.rectangle")
+            Label(AppStrings.transactionListEmptyTitle, systemImage: "list.bullet.rectangle")
         } description: {
-            Text("Tap the + button to add your first transaction.")
+            Text(AppStrings.transactionListEmptySubtitle)
         } actions: {
-            Button("Add Transaction") {
+            Button(AppStrings.transactionListEmptyAction) {
                 showingQuickInput = true
             }
             .buttonStyle(.borderedProminent)
@@ -186,10 +186,10 @@ struct TransactionListView: View {
         let account = accountMap[transaction.accountID]
         return TransactionRow(
             transaction: transaction,
-            categoryName: category?.name ?? "Unknown",
+            categoryName: category?.name ?? AppStrings.transactionDetailUnknown,
             categoryIcon: category?.iconName ?? "questionmark.circle",
             categoryColor: category?.colorHex ?? "#8E8E93",
-            accountName: account?.name ?? "Unknown",
+            accountName: account?.name ?? AppStrings.transactionDetailUnknown,
             currencyCode: account?.currency ?? .VND
         )
         .padding(.horizontal, 16)
@@ -201,14 +201,14 @@ struct TransactionListView: View {
                 await viewModel.deleteTransaction(transaction.id)
             }
         } label: {
-            Label("Delete", systemImage: "trash")
+            Label(AppStrings.delete, systemImage: "trash")
         }
         .accessibilityLabel("Delete transaction.")
     }
 
     private func editAction(for transaction: FinanceCore.Transaction) -> some View {
         NavigationLink(value: transaction) {
-            Label("Edit", systemImage: "pencil")
+            Label(AppStrings.edit, systemImage: "pencil")
         }
         .tint(.blue)
         .accessibilityLabel("Edit transaction.")

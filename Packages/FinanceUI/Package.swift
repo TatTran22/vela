@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "FinanceUI",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v18),
         .macOS(.v15),
@@ -21,7 +22,8 @@ let package = Package(
         .target(
             name: "FinanceUI",
             dependencies: ["FinanceCore"],
-            path: "Sources/FinanceUI"
+            path: "Sources/FinanceUI",
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "FinanceUITests",

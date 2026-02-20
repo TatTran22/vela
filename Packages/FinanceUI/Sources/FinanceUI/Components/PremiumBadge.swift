@@ -34,15 +34,15 @@ public struct PremiumBadge: View {
             }
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Premium feature")
-        .accessibilityHint(onTap != nil ? "Double tap to view subscription options." : "")
+        .accessibilityLabel(UIStrings.premiumAccessibility)
+        .accessibilityHint(onTap != nil ? UIStrings.premiumAccessibilityHint : "")
     }
 
     private var content: some View {
         HStack(spacing: DesignTokens.Spacing.xxs) {
             Image(systemName: "lock.fill")
                 .font(.system(size: 9, weight: .bold))
-            Text("Premium")
+            Text(UIStrings.premiumLabel)
                 .font(.system(size: 11, weight: .bold))
         }
         .padding(.horizontal, DesignTokens.Spacing.sm)

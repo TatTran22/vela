@@ -33,7 +33,7 @@ struct AccountListView: View {
                 accountsList
             }
         }
-        .navigationTitle("Accounts")
+        .navigationTitle(AppStrings.accountListTitle)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -58,8 +58,8 @@ struct AccountListView: View {
         .refreshable {
             await viewModel.loadAccounts()
         }
-        .alert("Error", isPresented: $viewModel.showError) {
-            Button("OK") {}
+        .alert(AppStrings.error, isPresented: $viewModel.showError) {
+            Button(AppStrings.ok) {}
         } message: {
             if let error = viewModel.error {
                 Text(error.localizedDescription)
@@ -71,11 +71,11 @@ struct AccountListView: View {
 
     private var emptyState: some View {
         ContentUnavailableView {
-            Label("No Accounts", systemImage: "creditcard")
+            Label(AppStrings.accountListEmptyTitle, systemImage: "creditcard")
         } description: {
-            Text("Add your first account to start tracking your finances.")
+            Text(AppStrings.accountListEmptySubtitle)
         } actions: {
-            Button("Add Account") {
+            Button(AppStrings.accountListEmptyAction) {
                 showingAddAccount = true
             }
             .buttonStyle(.borderedProminent)
@@ -87,7 +87,7 @@ struct AccountListView: View {
             // Total balance header
             Section {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Total Balance")
+                    Text(AppStrings.accountListTotalBalance)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     BalanceText(
@@ -112,7 +112,7 @@ struct AccountListView: View {
                                     await viewModel.deleteAccount(account.id)
                                 }
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label(AppStrings.delete, systemImage: "trash")
                             }
 
                             Button {
@@ -120,7 +120,7 @@ struct AccountListView: View {
                                     await viewModel.archiveAccount(account.id)
                                 }
                             } label: {
-                                Label("Archive", systemImage: "archivebox")
+                                Label(AppStrings.archive, systemImage: "archivebox")
                             }
                             .tint(.orange)
                         }
@@ -131,7 +131,7 @@ struct AccountListView: View {
                                 }
                             } label: {
                                 Label(
-                                    account.isHidden ? "Show" : "Hide",
+                                    account.isHidden ? AppStrings.show : AppStrings.hide,
                                     systemImage: account.isHidden ? "eye" : "eye.slash"
                                 )
                             }

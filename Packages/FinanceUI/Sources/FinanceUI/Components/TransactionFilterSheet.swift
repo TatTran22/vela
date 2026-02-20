@@ -126,7 +126,7 @@ public struct TransactionFilterSheet: View {
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Clear All") {
+                    Button(UIStrings.filterClearAll) {
                         clearAll()
                         onClear()
                     }
@@ -134,7 +134,7 @@ public struct TransactionFilterSheet: View {
                     .accessibilityLabel("Clear all filters.")
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Apply") {
+                    Button(UIStrings.filterApply) {
                         applyFilter()
                         onApply()
                     }
@@ -148,7 +148,7 @@ public struct TransactionFilterSheet: View {
     // MARK: - Sections
 
     private var typeSection: some View {
-        Section("Transaction Type") {
+        Section(UIStrings.filterSectionType) {
             HStack(spacing: DesignTokens.Spacing.sm) {
                 ForEach(TransactionType.allCases, id: \.self) { type in
                     TypeChip(
@@ -170,7 +170,7 @@ public struct TransactionFilterSheet: View {
     }
 
     private var dateSection: some View {
-        Section("Date Range") {
+        Section(UIStrings.filterSectionDate) {
             // Preset picker
             Picker("Preset", selection: $datePreset) {
                 ForEach(DatePreset.allCases, id: \.self) { preset in
@@ -207,9 +207,9 @@ public struct TransactionFilterSheet: View {
     }
 
     private var accountSection: some View {
-        Section("Accounts") {
+        Section(UIStrings.filterSectionAccounts) {
             if accounts.isEmpty {
-                Text("No accounts available.")
+                Text(UIStrings.noAccountsAvailable)
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(accounts) { account in
@@ -227,9 +227,9 @@ public struct TransactionFilterSheet: View {
     }
 
     private var categorySection: some View {
-        Section("Categories") {
+        Section(UIStrings.filterSectionCategories) {
             if categories.isEmpty {
-                Text("No categories available.")
+                Text(UIStrings.noCategoriesAvailable)
                     .foregroundStyle(.secondary)
             } else {
                 // Filter categories to match selected types, or show all
@@ -249,9 +249,9 @@ public struct TransactionFilterSheet: View {
     }
 
     private var amountSection: some View {
-        Section("Amount Range") {
+        Section(UIStrings.filterSectionAmount) {
             HStack {
-                Text("Min")
+                Text(UIStrings.filterAmountMin)
                     .foregroundStyle(.secondary)
                 Spacer()
                 TextField("0", text: $minAmountText)
@@ -264,10 +264,10 @@ public struct TransactionFilterSheet: View {
             }
 
             HStack {
-                Text("Max")
+                Text(UIStrings.filterAmountMax)
                     .foregroundStyle(.secondary)
                 Spacer()
-                TextField("No limit", text: $maxAmountText)
+                TextField(UIStrings.filterAmountNoLimit, text: $maxAmountText)
                     #if os(iOS)
                     .keyboardType(.decimalPad)
                     #endif
@@ -282,7 +282,7 @@ public struct TransactionFilterSheet: View {
 
     private var navigationTitle: String {
         let count = activeFilterCount
-        return count == 0 ? "Filter" : "Filter (\(count))"
+        return count == 0 ? UIStrings.filterTitle : UIStrings.filterTitleWithCount(count)
     }
 
     private var activeFilterCount: Int {
@@ -365,11 +365,11 @@ private enum DatePreset: CaseIterable, Hashable {
 
     var label: String {
         switch self {
-        case .all: return "All"
-        case .today: return "Today"
-        case .thisWeek: return "Week"
-        case .thisMonth: return "Month"
-        case .custom: return "Custom"
+        case .all: return UIStrings.filterDateAll
+        case .today: return UIStrings.filterDateToday
+        case .thisWeek: return UIStrings.filterDateWeek
+        case .thisMonth: return UIStrings.filterDateMonth
+        case .custom: return UIStrings.filterDateCustom
         }
     }
 

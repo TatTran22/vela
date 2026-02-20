@@ -62,7 +62,7 @@ struct MacTransactionsView: View {
     var body: some View {
         Group {
             if viewModel.isLoading && viewModel.transactions.isEmpty {
-                ProgressView("Loading transactions...")
+                ProgressView(AppStrings.transactionLoading)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if viewModel.transactions.isEmpty {
                 emptyState
@@ -70,8 +70,8 @@ struct MacTransactionsView: View {
                 transactionTable
             }
         }
-        .navigationTitle("Transactions")
-        .searchable(text: $viewModel.searchText, prompt: "Search transactions")
+        .navigationTitle(AppStrings.navTransactions)
+        .searchable(text: $viewModel.searchText, prompt: AppStrings.transactionSearch)
         .task { await viewModel.loadData() }
         .toolbar { toolbarContent }
         .sheet(isPresented: $showingEntrySheet, onDismiss: {
@@ -87,24 +87,24 @@ struct MacTransactionsView: View {
             isPresented: $showingDeleteConfirmation,
             titleVisibility: .visible
         ) {
-            Button("Delete", role: .destructive) {
+            Button(AppStrings.delete, role: .destructive) {
                 Task { await viewModel.deleteTransactions(pendingDeleteIDs) }
             }
-            Button("Cancel", role: .cancel) {
+            Button(AppStrings.cancel, role: .cancel) {
                 pendingDeleteIDs = []
             }
         } message: {
             if pendingDeleteIDs.count == 1 {
-                Text("This action cannot be undone.")
+                Text(AppStrings.transactionDeleteConfirm)
             } else {
                 Text("This will permanently delete \(pendingDeleteIDs.count) transactions. This action cannot be undone.")
             }
         }
         .alert(
-            "Error",
+            AppStrings.error,
             isPresented: $viewModel.showError,
             actions: {
-                Button("OK") { viewModel.showError = false }
+                Button(AppStrings.ok) { viewModel.showError = false }
             },
             message: {
                 Text(viewModel.error?.localizedDescription ?? "An unknown error occurred.")
@@ -125,14 +125,14 @@ struct MacTransactionsView: View {
             sortOrder: $viewModel.sortOrder
         ) {
             // Date column — sortable by key path
-            TableColumn("Date", value: \.date) { tx in
+            TableColumn(AppStrings.tableDate, value: \.date) { tx in
                 Text(tx.date, style: .date)
                     .monospacedDigit()
             }
             .width(min: 90, ideal: 110)
 
             // Category column — not sortable (no direct key path to name)
-            TableColumn("Category") { tx in
+            TableColumn(AppStrings.tableCategory) { tx in
                 HStack(spacing: 6) {
                     if let category = viewModel.categories.first(where: { $0.id == tx.categoryID }) {
                         Image(systemName: category.iconName)
@@ -146,7 +146,7 @@ struct MacTransactionsView: View {
             .width(min: 100, ideal: 140)
 
             // Note column — sortable by key path
-            TableColumn("Note", value: \.note) { tx in
+            TableColumn(AppStrings.tableNote, value: \.note) { tx in
                 Text(tx.note.isEmpty ? "—" : tx.note)
                     .lineLimit(1)
                     .foregroundStyle(tx.note.isEmpty ? Color.secondary : Color.primary)
@@ -154,7 +154,7 @@ struct MacTransactionsView: View {
             .width(min: 120, ideal: 200)
 
             // Amount column — not sortable (Decimal requires custom comparator)
-            TableColumn("Amount") { tx in
+            TableColumn(AppStrings.tableAmount) { tx in
                 let account = viewModel.account(for: tx.accountID)
                 AmountText(
                     amount: tx.amount,
@@ -166,7 +166,7 @@ struct MacTransactionsView: View {
             .width(min: 100, ideal: 130)
 
             // Account column — not sortable (no direct key path to name)
-            TableColumn("Account") { tx in
+            TableColumn(AppStrings.tableAccount) { tx in
                 Text(viewModel.accountName(for: tx.accountID))
                     .lineLimit(1)
             }
@@ -195,12 +195,12 @@ struct MacTransactionsView: View {
 
         if count == 1, let id = ids.first,
            let tx = viewModel.transactions.first(where: { $0.id == id }) {
-            Button("Edit") {
+            Button(AppStrings.edit) {
                 editingTransaction = tx
                 showingEntrySheet = true
             }
 
-            Button("Duplicate") {
+            Button(AppStrings.transactionDuplicate) {
                 duplicatingTransaction = tx
                 showingEntrySheet = true
             }
@@ -219,19 +219,19 @@ struct MacTransactionsView: View {
     private var emptyState: some View {
         ContentUnavailableView {
             if viewModel.searchText.isEmpty {
-                Label("No Transactions", systemImage: "list.bullet.rectangle")
+                Label(AppStrings.transactionEmptyTitle, systemImage: "list.bullet.rectangle")
             } else {
-                Label("No Results", systemImage: "magnifyingglass")
+                Label(AppStrings.transactionEmptyNoResults, systemImage: "magnifyingglass")
             }
         } description: {
             if viewModel.searchText.isEmpty {
-                Text("Add your first transaction to get started.")
+                Text(AppStrings.transactionEmptyAddFirst)
             } else {
                 Text("No transactions match \"\(viewModel.searchText)\".")
             }
         } actions: {
             if viewModel.searchText.isEmpty {
-                Button("New Transaction") {
+                Button(AppStrings.transactionNew) {
                     editingTransaction = nil
                     showingEntrySheet = true
                 }
@@ -250,7 +250,7 @@ struct MacTransactionsView: View {
                 editingTransaction = nil
                 showingEntrySheet = true
             } label: {
-                Label("New Transaction", systemImage: "plus")
+                Label(AppStrings.transactionNew, systemImage: "plus")
             }
             .keyboardShortcut("n", modifiers: .command)
             .help("Create a new transaction (⌘N)")
@@ -278,7 +278,7 @@ struct MacTransactionsView: View {
             Button {
                 Task { await viewModel.refresh() }
             } label: {
-                Label("Refresh", systemImage: "arrow.clockwise")
+                Label(AppStrings.transactionRefresh, systemImage: "arrow.clockwise")
             }
             .help("Refresh transactions")
         }

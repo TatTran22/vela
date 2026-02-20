@@ -114,9 +114,9 @@ public struct AmountText: View {
         let amountText = formatter.format(amount)
         let typeLabel: String
         switch type {
-        case .income: typeLabel = "income "
-        case .expense: typeLabel = "expense "
-        case .transfer: typeLabel = "transfer "
+        case .income: typeLabel = "\(UIStrings.amountIncome) "
+        case .expense: typeLabel = "\(UIStrings.amountExpense) "
+        case .transfer: typeLabel = "\(UIStrings.amountTransfer) "
         case .none: typeLabel = ""
         }
         return "\(typeLabel)\(amountText)"

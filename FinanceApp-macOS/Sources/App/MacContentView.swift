@@ -13,7 +13,7 @@ struct MacContentView: View {
                 Label(section.title, systemImage: section.icon)
                     .tag(section)
             }
-            .navigationTitle("FinanceApp")
+            .navigationTitle(AppStrings.navFinanceApp)
         } detail: {
             switch selectedSection {
             case .dashboard:
@@ -27,7 +27,7 @@ struct MacContentView: View {
             case .settings:
                 MacSettingsPlaceholderView()
             case .none:
-                Text("Select a section")
+                Text(AppStrings.navSelectSection)
             }
         }
     }
@@ -43,7 +43,13 @@ enum MacSection: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 
     var title: String {
-        rawValue.capitalized
+        switch self {
+        case .dashboard: return AppStrings.navDashboard
+        case .transactions: return AppStrings.navTransactions
+        case .accounts: return AppStrings.navAccounts
+        case .reports: return AppStrings.navReports
+        case .settings: return AppStrings.navSettings
+        }
     }
 
     var icon: String {

@@ -10,15 +10,15 @@ public enum EWalletProvider: String, Sendable, CaseIterable, Codable, Hashable {
     case vnpay
     case other
 
-    /// Display name for the e-wallet provider.
+    /// Localized display name for the e-wallet provider.
     ///
     /// Returns the properly capitalized name for UI display.
     public var displayName: String {
         switch self {
-        case .momo: return "MoMo"
-        case .zalopay: return "ZaloPay"
-        case .vnpay: return "VNPay"
-        case .other: return "Other"
+        case .momo: return CoreStrings.ewalletMomo
+        case .zalopay: return CoreStrings.ewalletZalopay
+        case .vnpay: return CoreStrings.ewalletVnpay
+        case .other: return CoreStrings.ewalletOther
         }
     }
 

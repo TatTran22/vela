@@ -120,17 +120,17 @@ public enum AccountType: String, Sendable, CaseIterable, Codable, Hashable {
     case loan
     case other
 
-    /// Display name for the account type.
+    /// Localized display name for the account type.
     public var displayName: String {
         switch self {
-        case .cash: return "Cash"
-        case .bank: return "Bank"
-        case .creditCard: return "Credit Card"
-        case .eWallet: return "E-Wallet"
-        case .savings: return "Savings"
-        case .investment: return "Investment"
-        case .loan: return "Loan"
-        case .other: return "Other"
+        case .cash: return CoreStrings.accountTypeCash
+        case .bank: return CoreStrings.accountTypeBank
+        case .creditCard: return CoreStrings.accountTypeCreditCard
+        case .eWallet: return CoreStrings.accountTypeEWallet
+        case .savings: return CoreStrings.accountTypeSavings
+        case .investment: return CoreStrings.accountTypeInvestment
+        case .loan: return CoreStrings.accountTypeLoan
+        case .other: return CoreStrings.accountTypeOther
         }
     }
 

@@ -1,0 +1,118 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "category.eatDrink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Food & Dining" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Ăn uống" } }
+      }
+    },
+    "category.transport" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Transportation" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Di chuyển" } }
+      }
+    },
+    "category.shopping" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Shopping" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Mua sắm" } }
+      }
+    },
+    "category.housing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Housing" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Nhà ở" } }
+      }
+    },
+    "category.bills" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bills & Utilities" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Hóa đơn & Tiện ích" } }
+      }
+    },
+    "category.entertainment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Entertainment" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Giải trí" } }
+      }
+    },
+    "category.health" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Health" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Sức khỏe" } }
+      }
+    },
+    "category.education" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Education" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Giáo dục" } }
+      }
+    },
+    "category.personal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Personal" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cá nhân" } }
+      }
+    },
+    "category.otherExpense" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Other" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Khác" } }
+      }
+    },
+    "category.salary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Salary" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Lương" } }
+      }
+    },
+    "category.bonus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bonus" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thưởng" } }
+      }
+    },
+    "category.investment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Investment" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đầu tư" } }
+      }
+    },
+    "category.business" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Business" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Kinh doanh" } }
+      }
+    },
+    "category.otherIncome" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Other Income" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thu nhập khác" } }
+      }
+    },
+    "category.transfer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Transfer" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Chuyển khoản" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

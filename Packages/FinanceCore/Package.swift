@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "FinanceCore",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v18),
         .macOS(.v15),
@@ -17,7 +18,8 @@ let package = Package(
     targets: [
         .target(
             name: "FinanceCore",
-            path: "Sources/FinanceCore"
+            path: "Sources/FinanceCore",
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "FinanceCoreTests",

@@ -68,7 +68,7 @@ struct MacTransactionEntryView: View {
             noteSection
         }
         .formStyle(.grouped)
-        .navigationTitle(viewModel.isEditing ? "Edit Transaction" : "New Transaction")
+        .navigationTitle(viewModel.isEditing ? AppStrings.transactionEdit : AppStrings.transactionNew)
         .toolbar {
             cancelButton
             saveButton
@@ -82,10 +82,10 @@ struct MacTransactionEntryView: View {
             }
         }
         .alert(
-            "Error",
+            AppStrings.error,
             isPresented: $viewModel.showError,
             actions: {
-                Button("OK") { viewModel.showError = false }
+                Button(AppStrings.ok) { viewModel.showError = false }
             },
             message: {
                 Text(viewModel.error?.localizedDescription ?? "An unknown error occurred.")
@@ -96,8 +96,8 @@ struct MacTransactionEntryView: View {
     // MARK: - Sections
 
     private var typeSection: some View {
-        Section("Type") {
-            Picker("Transaction Type", selection: $viewModel.transactionType) {
+        Section(AppStrings.entryType) {
+            Picker(AppStrings.entryType, selection: $viewModel.transactionType) {
                 ForEach(TransactionType.allCases, id: \.self) { type in
                     Text(type.displayName).tag(type)
                 }
@@ -109,9 +109,9 @@ struct MacTransactionEntryView: View {
     }
 
     private var amountSection: some View {
-        Section("Amount") {
+        Section(AppStrings.entryAmount) {
             TextField(
-                "Amount",
+                AppStrings.entryAmount,
                 text: $viewModel.amountText,
                 prompt: Text("0.00 or expression like 10+5")
             )
@@ -120,16 +120,16 @@ struct MacTransactionEntryView: View {
     }
 
     private var categorySection: some View {
-        Section("Category") {
+        Section(AppStrings.entryCategory) {
             if viewModel.filteredCategories.isEmpty {
-                Text("No categories available")
+                Text(AppStrings.entryNoCategoriesAvailable)
                     .foregroundStyle(.secondary)
             } else {
                 Picker(
-                    "Category",
+                    AppStrings.entryCategory,
                     selection: $viewModel.selectedCategoryID
                 ) {
-                    Text("Select a category").tag(UUID?.none)
+                    Text(AppStrings.entrySelectCategory).tag(UUID?.none)
                     ForEach(viewModel.filteredCategories) { category in
                         HStack {
                             Image(systemName: category.iconName)
@@ -144,16 +144,16 @@ struct MacTransactionEntryView: View {
     }
 
     private var accountSection: some View {
-        Section("Account") {
+        Section(AppStrings.entryAccount) {
             if viewModel.accounts.isEmpty {
-                Text("No accounts available")
+                Text(AppStrings.entryNoAccountsAvailable)
                     .foregroundStyle(.secondary)
             } else {
                 Picker(
-                    viewModel.isTransfer ? "From Account" : "Account",
+                    viewModel.isTransfer ? AppStrings.entryFromAccount : AppStrings.entryAccount,
                     selection: $viewModel.selectedAccountID
                 ) {
-                    Text("Select an account").tag(UUID?.none)
+                    Text(AppStrings.entrySelectAccount).tag(UUID?.none)
                     ForEach(viewModel.accounts) { account in
                         HStack {
                             Image(systemName: account.iconName)
@@ -172,9 +172,9 @@ struct MacTransactionEntryView: View {
     }
 
     private var destinationSection: some View {
-        Section("Transfer Destination") {
-            Picker("To Account", selection: $viewModel.toAccountID) {
-                Text("Select destination account").tag(UUID?.none)
+        Section(AppStrings.entryTransferDestination) {
+            Picker(AppStrings.entryToAccount, selection: $viewModel.toAccountID) {
+                Text(AppStrings.entrySelectDestination).tag(UUID?.none)
                 ForEach(viewModel.accounts.filter { $0.id != viewModel.selectedAccountID }) { account in
                     HStack {
                         Image(systemName: account.iconName)
@@ -191,7 +191,7 @@ struct MacTransactionEntryView: View {
 
             if viewModel.showExchangeRate {
                 TextField(
-                    "Exchange Rate",
+                    AppStrings.entryExchangeRate,
                     text: $viewModel.exchangeRate,
                     prompt: Text("e.g. 23000")
                 )
@@ -201,9 +201,9 @@ struct MacTransactionEntryView: View {
     }
 
     private var dateSection: some View {
-        Section("Date") {
+        Section(AppStrings.entryDate) {
             DatePicker(
-                "Date",
+                AppStrings.entryDate,
                 selection: $viewModel.date,
                 displayedComponents: [.date, .hourAndMinute]
             )
@@ -211,11 +211,11 @@ struct MacTransactionEntryView: View {
     }
 
     private var noteSection: some View {
-        Section("Note") {
+        Section(AppStrings.entryNote) {
             TextField(
-                "Note",
+                AppStrings.entryNote,
                 text: $viewModel.note,
-                prompt: Text("Optional description"),
+                prompt: Text(AppStrings.entryOptionalDescription),
                 axis: .vertical
             )
             .lineLimit(3...6)
@@ -227,13 +227,13 @@ struct MacTransactionEntryView: View {
 
     private var cancelButton: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") { dismiss() }
+            Button(AppStrings.cancel) { dismiss() }
         }
     }
 
     private var saveButton: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
-            Button("Save") {
+            Button(AppStrings.save) {
                 Task { await viewModel.save() }
             }
             .disabled(viewModel.isSaving)

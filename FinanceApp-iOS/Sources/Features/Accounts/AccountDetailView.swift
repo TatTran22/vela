@@ -31,21 +31,21 @@ struct AccountDetailView: View {
 
                 // Quick stats row
                 HStack(spacing: 16) {
-                    statCard(title: "Income", amount: 0, color: .green)
-                    statCard(title: "Expense", amount: 0, color: .red)
+                    statCard(title: AppStrings.accountDetailIncome, amount: 0, color: .green)
+                    statCard(title: AppStrings.accountDetailExpense, amount: 0, color: .red)
                 }
                 .padding(.horizontal)
 
                 // Transaction list placeholder
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Recent Transactions")
+                    Text(AppStrings.accountDetailRecentTransactions)
                         .font(.headline)
                         .padding(.horizontal)
 
                     ContentUnavailableView {
-                        Label("No Transactions", systemImage: "list.bullet")
+                        Label(AppStrings.accountDetailNoTransactions, systemImage: "list.bullet")
                     } description: {
-                        Text("Transactions will appear here once added.")
+                        Text(AppStrings.accountDetailTransactionsWillAppear)
                     }
                 }
             }
@@ -59,13 +59,13 @@ struct AccountDetailView: View {
                     Button {
                         viewModel.showingEdit = true
                     } label: {
-                        Label("Edit", systemImage: "pencil")
+                        Label(AppStrings.edit, systemImage: "pencil")
                     }
 
                     Button {
                         viewModel.showingBalanceAdjust = true
                     } label: {
-                        Label("Adjust Balance", systemImage: "plusminus")
+                        Label(AppStrings.accountDetailAdjustBalance, systemImage: "plusminus")
                     }
 
                     Divider()
@@ -73,7 +73,7 @@ struct AccountDetailView: View {
                     Button(role: .destructive) {
                         viewModel.showingDeleteConfirmation = true
                     } label: {
-                        Label("Delete", systemImage: "trash")
+                        Label(AppStrings.delete, systemImage: "trash")
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")
@@ -95,11 +95,11 @@ struct AccountDetailView: View {
             }
         }
         .confirmationDialog(
-            "Delete Account",
+            AppStrings.accountDetailDeleteAccount,
             isPresented: $viewModel.showingDeleteConfirmation,
             titleVisibility: .visible
         ) {
-            Button("Delete", role: .destructive) {
+            Button(AppStrings.delete, role: .destructive) {
                 Task {
                     do {
                         try await viewModel.deleteAccount()
@@ -109,9 +109,9 @@ struct AccountDetailView: View {
                     }
                 }
             }
-            Button("Cancel", role: .cancel) {}
+            Button(AppStrings.cancel, role: .cancel) {}
         } message: {
-            Text("Are you sure you want to delete \(viewModel.account.name)? This action cannot be undone.")
+            Text(AppStrings.accountDetailDeleteConfirmMessage)
         }
         .task {
             await viewModel.refreshAccount()

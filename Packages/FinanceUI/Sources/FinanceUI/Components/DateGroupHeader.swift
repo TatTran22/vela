@@ -95,32 +95,7 @@ public struct DateGroupHeader: View {
     // MARK: - Formatting
 
     private var formattedDate: String {
-        let calendar = Calendar.current
-
-        if calendar.isDateInToday(date) {
-            return "Hom nay"
-        }
-
-        if calendar.isDateInYesterday(date) {
-            return "Hom qua"
-        }
-
-        // Within 6 days: "Thu Hai, 10/02/2026"
-        if let daysAgo = calendar.dateComponents([.day], from: date, to: Date()).day,
-           daysAgo < 7 {
-            return fullDateString(date)
-        }
-
-        return fullDateString(date)
-    }
-
-    private func fullDateString(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "vi_VN")
-        formatter.dateFormat = "EEEE, dd/MM/yyyy"
-        // Capitalise first letter
-        let raw = formatter.string(from: date)
-        return raw.prefix(1).uppercased() + raw.dropFirst()
+        LocaleFormatter.relativeDate(date)
     }
 
     private func formattedAmount(_ amount: Decimal) -> String {

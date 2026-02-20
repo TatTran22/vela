@@ -66,7 +66,7 @@ public struct TransactionRow: View {
         .padding(.vertical, DesignTokens.Spacing.sm)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
-        .accessibilityHint("Double tap to view transaction details.")
+        .accessibilityHint(UIStrings.transactionRowHint)
     }
 
     // MARK: - Subviews

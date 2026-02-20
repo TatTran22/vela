@@ -30,12 +30,12 @@ struct AccountTests {
     @Test("Account type display properties")
     func accountTypeDisplayProperties() {
         let bankType = AccountType.bank
-        #expect(bankType.displayName == "Bank")
+        #expect(bankType.displayName == CoreStrings.accountTypeBank)
         #expect(bankType.defaultIconName == "building.columns")
         #expect(bankType.defaultColorHex == "#007AFF")
 
         let loanType = AccountType.loan
-        #expect(loanType.displayName == "Loan")
+        #expect(loanType.displayName == CoreStrings.accountTypeLoan)
         #expect(loanType.defaultIconName == "doc.text")
         #expect(loanType.defaultColorHex == "#FF3B30")
     }
@@ -51,7 +51,7 @@ struct AccountTests {
 
         #expect(account.type == .eWallet)
         #expect(account.eWalletProvider == .momo)
-        #expect(account.eWalletProvider?.displayName == "MoMo")
+        #expect(account.eWalletProvider?.displayName == CoreStrings.ewalletMomo)
         #expect(account.eWalletProvider?.iconName == "m.circle.fill")
     }
 

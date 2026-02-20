@@ -10,31 +10,31 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Dashboard", systemImage: "house.fill", value: .dashboard) {
+            Tab(AppStrings.tabDashboard, systemImage: "house.fill", value: .dashboard) {
                 NavigationStack {
                     DashboardPlaceholderView()
                 }
             }
 
-            Tab("Transactions", systemImage: "list.bullet", value: .transactions) {
+            Tab(AppStrings.tabTransactions, systemImage: "list.bullet", value: .transactions) {
                 NavigationStack {
                     TransactionListView(viewModel: makeTransactionListViewModel())
                 }
             }
 
-            Tab("Accounts", systemImage: "creditcard.fill", value: .accounts) {
+            Tab(AppStrings.tabAccounts, systemImage: "creditcard.fill", value: .accounts) {
                 NavigationStack {
                     AccountListView(viewModel: makeAccountListViewModel())
                 }
             }
 
-            Tab("Reports", systemImage: "chart.pie.fill", value: .reports) {
+            Tab(AppStrings.tabReports, systemImage: "chart.pie.fill", value: .reports) {
                 NavigationStack {
                     ReportsPlaceholderView()
                 }
             }
 
-            Tab("Settings", systemImage: "gearshape.fill", value: .settings) {
+            Tab(AppStrings.tabSettings, systemImage: "gearshape.fill", value: .settings) {
                 NavigationStack {
                     SettingsPlaceholderView()
                 }

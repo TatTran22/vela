@@ -37,16 +37,16 @@ struct TransferView: View {
             }
             .padding()
         }
-        .navigationTitle("Transfer")
+        .navigationTitle(AppStrings.transferTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") { dismiss() }
+                Button(AppStrings.cancel) { dismiss() }
                     .accessibilityLabel("Cancel and dismiss the transfer form.")
             }
         }
-        .alert("Error", isPresented: $viewModel.showError) {
-            Button("OK") {}
+        .alert(AppStrings.error, isPresented: $viewModel.showError) {
+            Button(AppStrings.ok) {}
         } message: {
             if let error = viewModel.error {
                 Text(error.localizedDescription)
@@ -64,7 +64,7 @@ struct TransferView: View {
 
     private var accountSelectionSection: some View {
         VStack(spacing: 12) {
-            Text("From / To")
+            Text(AppStrings.transferFromTo)
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .accessibilityAddTraits(.isHeader)
@@ -72,7 +72,7 @@ struct TransferView: View {
             HStack(spacing: 16) {
                 // Source account
                 accountPicker(
-                    label: "From",
+                    label: AppStrings.transferFrom,
                     selection: $viewModel.sourceAccount,
                     options: viewModel.accounts
                 )
@@ -87,7 +87,7 @@ struct TransferView: View {
 
                 // Destination account
                 accountPicker(
-                    label: "To",
+                    label: AppStrings.transferTo,
                     selection: $viewModel.destinationAccount,
                     options: viewModel.availableDestinations
                 )
@@ -109,7 +109,7 @@ struct TransferView: View {
                 .foregroundStyle(.secondary)
 
             if options.isEmpty {
-                Text("No account")
+                Text(AppStrings.transferNoAccount)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             } else {
@@ -154,7 +154,7 @@ struct TransferView: View {
                             Image(systemName: "plus.circle.fill")
                                 .font(.largeTitle)
                                 .foregroundStyle(.secondary)
-                            Text("Select")
+                            Text(AppStrings.transferSelect)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -181,7 +181,7 @@ struct TransferView: View {
                 : "0"
 
             HStack {
-                Text("Amount")
+                Text(AppStrings.transferAmount)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Spacer()
@@ -224,13 +224,13 @@ struct TransferView: View {
 
     private var exchangeRateSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Exchange Rate")
+            Text(AppStrings.transferExchangeRate)
                 .font(.headline)
                 .accessibilityAddTraits(.isHeader)
 
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Rate")
+                    Text(AppStrings.transferRate)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     TextField("e.g. 24500", text: $viewModel.exchangeRate)
@@ -244,7 +244,7 @@ struct TransferView: View {
                     .accessibilityHidden(true)
 
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text("You receive")
+                    Text(AppStrings.transferYouReceive)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     let dstFormatter = CurrencyFormatter(currencyCode: viewModel.destinationAccount?.currency ?? .VND)
@@ -273,7 +273,7 @@ struct TransferView: View {
                     .frame(width: 28)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Fee (optional)")
+                    Text(AppStrings.transferFeeOptional)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     TextField("0", text: $viewModel.fee)
@@ -285,7 +285,7 @@ struct TransferView: View {
 
             // Date
             DatePicker(
-                "Date",
+                AppStrings.transactionDetailDate,
                 selection: $viewModel.date,
                 displayedComponents: [.date, .hourAndMinute]
             )
@@ -300,10 +300,10 @@ struct TransferView: View {
                     .frame(width: 28)
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Note (optional)")
+                    Text(AppStrings.transferNoteOptional)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    TextField("Add a note", text: $viewModel.note, axis: .vertical)
+                    TextField(AppStrings.transferAddNote, text: $viewModel.note, axis: .vertical)
                         .lineLimit(3)
                         .accessibilityLabel("Transfer note.")
                 }
@@ -326,7 +326,7 @@ struct TransferView: View {
                         .progressViewStyle(.circular)
                         .tint(.white)
                 } else {
-                    Text("Transfer")
+                    Text(AppStrings.transferTitle)
                         .fontWeight(.semibold)
                 }
             }
