@@ -123,6 +123,26 @@ enum AppStrings {
     static var hide: String { String(localized: "common.hide") }
     static var none: String { String(localized: "common.none") }
 
+    // MARK: - Categories
+
+    static var categoryListTitle: String { String(localized: "category.list.title") }
+    static var categoryListEmptyTitle: String { String(localized: "category.list.empty.title") }
+    static var categoryListEmptySubtitle: String { String(localized: "category.list.empty.subtitle") }
+    static var categoryListEmptyAction: String { String(localized: "category.list.empty.action") }
+    static var categoryEditNewTitle: String { String(localized: "category.edit.newTitle") }
+    static var categoryEditEditTitle: String { String(localized: "category.edit.editTitle") }
+    static var categoryEditName: String { String(localized: "category.edit.name") }
+    static var categoryEditType: String { String(localized: "category.edit.type") }
+    static var categoryEditParent: String { String(localized: "category.edit.parent") }
+    static var categoryEditIcon: String { String(localized: "category.edit.icon") }
+    static var categoryEditColor: String { String(localized: "category.edit.color") }
+    static var categoryEditPreview: String { String(localized: "category.edit.preview") }
+    static var categoryEditNoParent: String { String(localized: "category.edit.noParent") }
+    static var categoryDetailSubcategories: String { String(localized: "category.detail.subcategories") }
+    static var categoryExpense: String { String(localized: "category.type.expense") }
+    static var categoryIncome: String { String(localized: "category.type.income") }
+    static var tabCategories: String { String(localized: "tab.categories") }
+
     // MARK: - Placeholders
 
     static var placeholderDashboard: String { String(localized: "placeholder.dashboard") }

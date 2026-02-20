@@ -28,6 +28,12 @@ struct ContentView: View {
                 }
             }
 
+            Tab(AppStrings.tabCategories, systemImage: "folder.fill", value: .categories) {
+                NavigationStack {
+                    CategoryListView(viewModel: makeCategoryListViewModel())
+                }
+            }
+
             Tab(AppStrings.tabReports, systemImage: "chart.pie.fill", value: .reports) {
                 NavigationStack {
                     ReportsPlaceholderView()
@@ -65,6 +71,21 @@ struct ContentView: View {
         )
     }
 
+    /// Creates the view model for the category list with all dependencies.
+    private func makeCategoryListViewModel() -> CategoryListViewModel {
+        let container = modelContext.container
+        let repository = CategoryRepository(modelContainer: container)
+        let getCategories = GetCategoriesUseCase(repository: repository)
+        let deleteCategory = DeleteCategoryUseCase(repository: repository)
+        let reorderCategories = ReorderCategoriesUseCase(repository: repository)
+
+        return CategoryListViewModel(
+            getCategoriesUseCase: getCategories,
+            deleteCategoryUseCase: deleteCategory,
+            reorderCategoriesUseCase: reorderCategories
+        )
+    }
+
     /// Creates the view model for the account list with dependencies.
     private func makeAccountListViewModel() -> AccountListViewModel {
         let container = modelContext.container
@@ -87,6 +108,7 @@ enum AppTab: Hashable {
     case dashboard
     case transactions
     case accounts
+    case categories
     case reports
     case settings
 }
