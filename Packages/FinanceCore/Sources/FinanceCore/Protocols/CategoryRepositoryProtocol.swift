@@ -55,4 +55,35 @@ public protocol CategoryRepositoryProtocol: Sendable {
     ///
     /// - Throws: Repository errors if the seeding operation fails.
     func seedDefaults() async throws
+
+    /// Deletes a category by its unique identifier.
+    ///
+    /// For system (default) categories, the implementation may choose to archive
+    /// rather than permanently delete. Callers should check `isDefault` before
+    /// calling this method when permanent deletion is required.
+    ///
+    /// - Parameter id: The unique identifier of the category to delete.
+    /// - Throws: Repository errors if the delete operation fails.
+    func delete(_ id: UUID) async throws
+
+    /// Updates sort orders for multiple categories atomically.
+    ///
+    /// Each ID in `orderedIDs` receives a `sortOrder` equal to `offset + index`,
+    /// where `index` is its zero-based position in the array. This allows
+    /// callers to assign non-overlapping ranges across different sections.
+    ///
+    /// The operation is atomic — either all sort orders are updated or none are.
+    ///
+    /// - Parameters:
+    ///   - orderedIDs: An array of category IDs in their desired display order.
+    ///   - offset: The starting sort order value.
+    /// - Throws: Repository errors if the update operation fails.
+    func reorder(_ orderedIDs: [UUID], startingAt offset: Int) async throws
+
+    /// Checks whether any transaction references the given category.
+    ///
+    /// - Parameter categoryID: The unique identifier of the category to check.
+    /// - Returns: `true` if at least one transaction references this category; otherwise `false`.
+    /// - Throws: Repository errors if the check operation fails.
+    func hasTransactions(categoryID: UUID) async throws -> Bool
 }
