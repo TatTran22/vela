@@ -120,9 +120,68 @@ public actor CategoryRepository: CategoryRepositoryProtocol {
         try modelContext.save()
     }
 
+    // MARK: - Deletion
+
+    /// Deletes a category by its unique identifier.
+    ///
+    /// If no category with the given `id` exists the operation completes silently.
+    ///
+    /// - Parameter id: The unique identifier of the category to delete.
+    /// - Throws: Repository errors if the fetch or delete operation fails.
+    public func delete(_ id: UUID) async throws {
+        var descriptor = FetchDescriptor<CategoryEntity>()
+        descriptor.predicate = #Predicate<CategoryEntity> { $0.id == id }
+        descriptor.fetchLimit = 1
+
+        guard let entity = try modelContext.fetch(descriptor).first else { return }
+        modelContext.delete(entity)
+        try modelContext.save()
+    }
+
+    // MARK: - Reordering
+
+    /// Updates sort orders for multiple categories atomically.
+    ///
+    /// Each ID in `orderedIDs` receives a `sortOrder` equal to `offset + index`,
+    /// where `index` is its zero-based position in the array.
+    ///
+    /// - Parameters:
+    ///   - orderedIDs: An array of category IDs in their desired display order.
+    ///   - offset: The starting sort order value.
+    /// - Throws: Repository errors if the fetch or save operation fails.
+    public func reorder(_ orderedIDs: [UUID], startingAt offset: Int) async throws {
+        for (index, id) in orderedIDs.enumerated() {
+            var descriptor = FetchDescriptor<CategoryEntity>()
+            descriptor.predicate = #Predicate<CategoryEntity> { $0.id == id }
+            descriptor.fetchLimit = 1
+
+            guard let entity = try modelContext.fetch(descriptor).first else { continue }
+            entity.sortOrder = offset + index
+        }
+
+        try modelContext.save()
+    }
+
+    // MARK: - Existence Checks
+
+    /// Checks whether any transaction references the given category.
+    ///
+    /// Uses a fetch with a limit of 1 for efficiency — the exact count is not needed.
+    ///
+    /// - Parameter categoryID: The unique identifier of the category to check.
+    /// - Returns: `true` if at least one transaction references this category; otherwise `false`.
+    /// - Throws: Repository errors if the fetch operation fails.
+    public func hasTransactions(categoryID: UUID) async throws -> Bool {
+        var descriptor = FetchDescriptor<TransactionEntity>()
+        descriptor.predicate = #Predicate<TransactionEntity> { $0.categoryID == categoryID }
+        descriptor.fetchLimit = 1
+        let results = try modelContext.fetch(descriptor)
+        return !results.isEmpty
+    }
+
     // MARK: - Seeding
 
-    /// Inserts the built-in default Vietnamese categories if the category table is empty.
+    /// Inserts the built-in default Vietnamese categories and sub-categories if the category table is empty.
     ///
     /// This method is idempotent. It checks whether any category record already
     /// exists before inserting, so calling it multiple times is safe and produces
@@ -137,6 +196,11 @@ public actor CategoryRepository: CategoryRepositoryProtocol {
 
         for category in DefaultCategories.all {
             let entity = CategoryEntity.from(domain: category)
+            modelContext.insert(entity)
+        }
+
+        for subCategory in DefaultSubCategories.all {
+            let entity = CategoryEntity.from(domain: subCategory)
             modelContext.insert(entity)
         }
 

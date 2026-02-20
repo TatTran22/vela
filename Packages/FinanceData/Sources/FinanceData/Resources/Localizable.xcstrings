@@ -112,6 +112,237 @@
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Transfer" } },
         "vi" : { "stringUnit" : { "state" : "translated", "value" : "Chuyển khoản" } }
       }
+    },
+    "subcategory.eatDrink.com" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Rice / Meals" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cơm" } }
+      }
+    },
+    "subcategory.eatDrink.cafe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Café / Milk Tea" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Café/Trà sữa" } }
+      }
+    },
+    "subcategory.eatDrink.anVat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Snacks" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Ăn vặt" } }
+      }
+    },
+    "subcategory.eatDrink.nhau" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Drinks / Pub" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Nhậu" } }
+      }
+    },
+    "subcategory.housing.tienNha" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Rent" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Tiền nhà" } }
+      }
+    },
+    "subcategory.housing.dien" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Electricity" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Điện" } }
+      }
+    },
+    "subcategory.housing.nuoc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Water" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Nước" } }
+      }
+    },
+    "subcategory.housing.internet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Internet" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Internet" } }
+      }
+    },
+    "subcategory.housing.gas" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Gas" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Gas" } }
+      }
+    },
+    "subcategory.transport.xang" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fuel" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Xăng" } }
+      }
+    },
+    "subcategory.transport.grab" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Grab / Taxi" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Grab/Taxi" } }
+      }
+    },
+    "subcategory.transport.guiXe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Parking" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Gửi xe" } }
+      }
+    },
+    "subcategory.transport.baoDuong" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Vehicle Maintenance" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bảo dưỡng xe" } }
+      }
+    },
+    "subcategory.shopping.quanAo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clothing" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Quần áo" } }
+      }
+    },
+    "subcategory.shopping.doGiaDung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Household Items" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đồ gia dụng" } }
+      }
+    },
+    "subcategory.shopping.dienTu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Electronics" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Điện tử" } }
+      }
+    },
+    "subcategory.entertainment.phim" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Movies" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Phim" } }
+      }
+    },
+    "subcategory.entertainment.game" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Games" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Game" } }
+      }
+    },
+    "subcategory.entertainment.duLich" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Travel" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Du lịch" } }
+      }
+    },
+    "subcategory.entertainment.theThao" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sports" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thể thao" } }
+      }
+    },
+    "subcategory.health.thuoc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Medicine" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thuốc" } }
+      }
+    },
+    "subcategory.health.khamBenh" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Doctor Visits" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Khám bệnh" } }
+      }
+    },
+    "subcategory.health.gym" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Gym" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Gym" } }
+      }
+    },
+    "subcategory.education.hocPhi" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tuition" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Học phí" } }
+      }
+    },
+    "subcategory.education.sach" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Books" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Sách" } }
+      }
+    },
+    "subcategory.education.khoaHoc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Online Courses" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Khóa học" } }
+      }
+    },
+    "subcategory.personal.bieuBoMe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Parents' Gift" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Biếu bố mẹ" } }
+      }
+    },
+    "subcategory.personal.conCai" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Children" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Con cái" } }
+      }
+    },
+    "subcategory.personal.thuCung" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pets" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thú cưng" } }
+      }
+    },
+    "subcategory.bills.baoHiem" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Insurance" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bảo hiểm" } }
+      }
+    },
+    "subcategory.bills.dauTu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Investment" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đầu tư" } }
+      }
+    },
+    "subcategory.bills.traNos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Debt Repayment" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Trả nợ" } }
+      }
+    },
+    "subcategory.bills.phiNganHang" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bank Fees" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Phí ngân hàng" } }
+      }
     }
   },
   "version" : "1.0"

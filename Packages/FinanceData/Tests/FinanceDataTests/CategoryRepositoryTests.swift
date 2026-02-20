@@ -35,16 +35,16 @@ struct CategoryRepositoryTests {
 
     // MARK: - seedDefaults
 
-    @Test("seedDefaults creates 16 default categories")
-    func testSeedDefaultsCreates16Categories() async throws {
+    @Test("seedDefaults creates 49 default categories")
+    func testSeedDefaultsCreates49Categories() async throws {
         let container = try makeContainer()
         let repo = CategoryRepository(modelContainer: container)
 
         try await repo.seedDefaults()
 
         let all = try await repo.fetchAll(type: nil)
-        // 10 expense + 5 income + 1 transfer = 16
-        #expect(all.count == 16)
+        // 10 parent expense + 33 expense sub-categories + 5 income + 1 transfer = 49
+        #expect(all.count == 49)
     }
 
     @Test("seedDefaults is idempotent: calling twice does not create duplicates")
@@ -56,10 +56,10 @@ struct CategoryRepositoryTests {
         try await repo.seedDefaults()
 
         let all = try await repo.fetchAll(type: nil)
-        #expect(all.count == 16)
+        #expect(all.count == 49)
     }
 
-    @Test("seedDefaults creates 10 expense categories")
+    @Test("seedDefaults creates 43 expense categories")
     func testSeedDefaultsExpenseCount() async throws {
         let container = try makeContainer()
         let repo = CategoryRepository(modelContainer: container)
@@ -67,7 +67,8 @@ struct CategoryRepositoryTests {
         try await repo.seedDefaults()
 
         let expense = try await repo.fetchAll(type: .expense)
-        #expect(expense.count == 10)
+        // 10 parent expense categories + 33 expense sub-categories = 43
+        #expect(expense.count == 43)
     }
 
     @Test("seedDefaults creates 5 income categories")
