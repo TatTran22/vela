@@ -26,6 +26,8 @@ public final class TransactionEntity {
     public var tags: String = ""
     public var latitude: Double?
     public var longitude: Double?
+    /// Binary data of a receipt image attached to this transaction.
+    public var receiptImageData: Data?
     /// JSON-encoded `[String: String]` dictionary stored as a plain string for CloudKit compatibility.
     public var metadata: String = ""
     public var deletedAt: Date?
@@ -45,6 +47,7 @@ public final class TransactionEntity {
         tags: String = "",
         latitude: Double? = nil,
         longitude: Double? = nil,
+        receiptImageData: Data? = nil,
         metadata: String = "",
         deletedAt: Date? = nil,
         createdAt: Date = Date(),
@@ -62,6 +65,7 @@ public final class TransactionEntity {
         self.tags = tags
         self.latitude = latitude
         self.longitude = longitude
+        self.receiptImageData = receiptImageData
         self.metadata = metadata
         self.deletedAt = deletedAt
         self.createdAt = createdAt

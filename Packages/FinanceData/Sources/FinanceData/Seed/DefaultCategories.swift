@@ -13,43 +13,43 @@ public enum DefaultCategories {
     // MARK: - Expense Category IDs
 
     /// Ăn uống
-    static let eatDrinkID = UUID(uuidString: "10000000-0000-0000-0000-000000000001")!
+    public static let eatDrinkID = UUID(uuidString: "10000000-0000-0000-0000-000000000001")!
     /// Di chuyển
-    static let transportID = UUID(uuidString: "10000000-0000-0000-0000-000000000002")!
+    public static let transportID = UUID(uuidString: "10000000-0000-0000-0000-000000000002")!
     /// Mua sắm
-    static let shoppingID = UUID(uuidString: "10000000-0000-0000-0000-000000000003")!
+    public static let shoppingID = UUID(uuidString: "10000000-0000-0000-0000-000000000003")!
     /// Nhà ở
-    static let housingID = UUID(uuidString: "10000000-0000-0000-0000-000000000004")!
+    public static let housingID = UUID(uuidString: "10000000-0000-0000-0000-000000000004")!
     /// Hóa đơn & Tiện ích
-    static let billsID = UUID(uuidString: "10000000-0000-0000-0000-000000000005")!
+    public static let billsID = UUID(uuidString: "10000000-0000-0000-0000-000000000005")!
     /// Giải trí
-    static let entertainmentID = UUID(uuidString: "10000000-0000-0000-0000-000000000006")!
+    public static let entertainmentID = UUID(uuidString: "10000000-0000-0000-0000-000000000006")!
     /// Sức khỏe
-    static let healthID = UUID(uuidString: "10000000-0000-0000-0000-000000000007")!
+    public static let healthID = UUID(uuidString: "10000000-0000-0000-0000-000000000007")!
     /// Giáo dục
-    static let educationID = UUID(uuidString: "10000000-0000-0000-0000-000000000008")!
+    public static let educationID = UUID(uuidString: "10000000-0000-0000-0000-000000000008")!
     /// Cá nhân
-    static let personalID = UUID(uuidString: "10000000-0000-0000-0000-000000000009")!
+    public static let personalID = UUID(uuidString: "10000000-0000-0000-0000-000000000009")!
     /// Khác (expense)
-    static let otherExpenseID = UUID(uuidString: "10000000-0000-0000-0000-00000000000A")!
+    public static let otherExpenseID = UUID(uuidString: "10000000-0000-0000-0000-00000000000A")!
 
     // MARK: - Income Category IDs
 
     /// Lương
-    static let salaryID = UUID(uuidString: "20000000-0000-0000-0000-000000000001")!
+    public static let salaryID = UUID(uuidString: "20000000-0000-0000-0000-000000000001")!
     /// Thưởng
-    static let bonusID = UUID(uuidString: "20000000-0000-0000-0000-000000000002")!
+    public static let bonusID = UUID(uuidString: "20000000-0000-0000-0000-000000000002")!
     /// Đầu tư
-    static let investmentID = UUID(uuidString: "20000000-0000-0000-0000-000000000003")!
+    public static let investmentID = UUID(uuidString: "20000000-0000-0000-0000-000000000003")!
     /// Kinh doanh
-    static let businessID = UUID(uuidString: "20000000-0000-0000-0000-000000000004")!
+    public static let businessID = UUID(uuidString: "20000000-0000-0000-0000-000000000004")!
     /// Thu nhập khác
-    static let otherIncomeID = UUID(uuidString: "20000000-0000-0000-0000-000000000005")!
+    public static let otherIncomeID = UUID(uuidString: "20000000-0000-0000-0000-000000000005")!
 
     // MARK: - Transfer Category IDs
 
     /// Chuyển khoản
-    static let transferID = UUID(uuidString: "30000000-0000-0000-0000-000000000001")!
+    public static let transferID = UUID(uuidString: "30000000-0000-0000-0000-000000000001")!
 
     // MARK: - Public Seed Data
 

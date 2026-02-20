@@ -23,6 +23,7 @@ extension TransactionEntity {
             tags: Self.decodeTags(from: tags),
             latitude: latitude,
             longitude: longitude,
+            receiptImageData: receiptImageData,
             metadata: Self.decodeMetadata(from: metadata),
             deletedAt: deletedAt,
             createdAt: createdAt,
@@ -48,6 +49,7 @@ extension TransactionEntity {
         tags = Self.encodeTags(domain.tags)
         latitude = domain.latitude
         longitude = domain.longitude
+        receiptImageData = domain.receiptImageData
         metadata = Self.encodeMetadata(domain.metadata)
         deletedAt = domain.deletedAt
         updatedAt = domain.updatedAt
@@ -74,6 +76,7 @@ extension TransactionEntity {
             tags: encodeTags(domain.tags),
             latitude: domain.latitude,
             longitude: domain.longitude,
+            receiptImageData: domain.receiptImageData,
             metadata: encodeMetadata(domain.metadata),
             deletedAt: domain.deletedAt,
             createdAt: domain.createdAt,
